@@ -9,14 +9,18 @@
 import UIKit
 
 class Tweet: NSObject {
+    var user: User?
     var text: NSString?
     var timestamp: NSDate?
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
     
     init(dictionary: NSDictionary) {
+        let userDictionary = dictionary["user"] as? NSDictionary
+        if let userDictionary = userDictionary {
+            user = User(dictionary: userDictionary)
+        }
         text = (dictionary["text"] as? NSString?)!
-        
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
         favoritesCount = (dictionary["favorites_count"] as? Int) ?? 0
         

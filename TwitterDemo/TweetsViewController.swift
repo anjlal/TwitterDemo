@@ -21,7 +21,7 @@ class TweetsViewController: UIViewController {
         self.tableView.delegate = self
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 120
+        tableView.estimatedRowHeight = 1000
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
             self.tweets = tweets
             for tweet in tweets {
@@ -42,6 +42,10 @@ class TweetsViewController: UIViewController {
         })
 
         // Do any additional setup after loading the view.
+        let logo = UIImage(named: "logo.png")
+        let imageView = UIImageView(image: logo)
+        imageView.contentMode = .scaleAspectFit // set imageview's content mode
+        self.navigationItem.titleView = imageView
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,15 +57,20 @@ class TweetsViewController: UIViewController {
         TwitterClient.sharedInstance?.logout()
     }
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPath(for: cell)
+        let tweet = tweets[(indexPath?.row)!]
+        
+        let detailViewController = segue.destination as? TweetDetailViewController
+        detailViewController?.tweet = tweet
+        
     }
-    */
+
     
     // Makes a network request to get updated data
     // Updates the tableView with the new data

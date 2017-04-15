@@ -12,9 +12,14 @@ class TweetDetailViewController: UIViewController {
     
     var tweet: Tweet?
 
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("\(tweet)")
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        tableView.rowHeight = 150
         // Do any additional setup after loading the view.
     }
 
@@ -34,4 +39,16 @@ class TweetDetailViewController: UIViewController {
     }
     */
 
+}
+
+extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetDetailCell", for: indexPath) as! TweetDetailCell
+        cell.tweetData = tweet
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
 }

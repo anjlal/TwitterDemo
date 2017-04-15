@@ -38,10 +38,6 @@ class TweetDetailCell: UITableViewCell {
             
             retweetCountLabel.text = String(describing: tweetData?.retweetCount ?? 0)
             favCountLabel.text = String(describing: tweetData?.favoritesCount ?? 0)
-            
-            self.favImage.image = UIImage(named: "favgrey.png")
-            self.replyImage.image = UIImage(named: "replygrey.png")
-            self.retweetImage.image = UIImage(named: "rtgrey.png")
     
 //            if let since = tweetData?.timestamp?.timeIntervalSinceNow {
 //                let hours = round(since / 3600.0) * -1.0
@@ -58,6 +54,9 @@ class TweetDetailCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.favImage.image = UIImage(named: "favgrey.png")
+        self.replyImage.image = UIImage(named: "replygrey.png")
+        self.retweetImage.image = UIImage(named: "rtgrey.png")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

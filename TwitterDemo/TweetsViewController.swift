@@ -13,6 +13,7 @@ class TweetsViewController: UIViewController {
     var tweets: [Tweet]!
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var replyImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

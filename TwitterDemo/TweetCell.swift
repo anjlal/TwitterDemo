@@ -10,17 +10,26 @@ import UIKit
 
 class TweetCell: UITableViewCell {
     
+    @IBOutlet weak var favoriteImage: UIImageView!
+    @IBOutlet weak var retweetImage: UIImageView!
+    @IBOutlet weak var replyImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var tweetLabel: UILabel!
+    @IBOutlet weak var smallRetweetImage: UIImageView!
+    @IBOutlet weak var retweeterLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         profileImage.layer.cornerRadius = 3
         profileImage.clipsToBounds = true
+        smallRetweetImage.image = UIImage(named: "rtgrey.png")
+        retweetImage.image = UIImage(named: "rtgrey.png")
+        replyImage.image = UIImage(named: "replygrey.png")
+        favoriteImage.image = UIImage(named: "favgrey.png")
     }
     
     var tweetData: Tweet? {
@@ -38,14 +47,7 @@ class TweetCell: UITableViewCell {
                 usernameLabel.text = String("@\(screenname)")
             }
            
-            if let since = tweetData?.timestamp?.timeIntervalSinceNow {
-                let hours = round(since / 3600.0) * -1.0
-                if hours < 24 {
-                    timestampLabel.text = "\(Int(hours))H"
-                } else {
-                    timestampLabel.text = "\(tweetData?.timestamp)"
-                }
-            }
+            timestampLabel.text = timestampConverter(date: tweetData?.timestamp! as! Date)
 
         }
     }
@@ -54,6 +56,58 @@ class TweetCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func timestampConverter(date: Date) -> String {
+        
+        var hours = 0
+        var minutes = 0
+        var seconds = 0
+        
+        // Date() By itself will give us "now" date
+        let now = Date()
+        
+        // We can ask the calendar to give us the hours and minutes between now and the date we parsed
+        
+        // Calendar can do all kinds of things with dates
+        let calendar = Calendar(identifier: .gregorian)
+        
+        let components = calendar.dateComponents([.hour, .minute, .second], from: date, to: now)
+        
+        // If getting the hours was succesful we can use them
+        if  components.hour != nil {
+            hours = components.hour!
+        }
+        
+        // same with minutes
+        if components.minute != nil {
+            minutes = components.minute!
+            //print("\(minutes) minutes ago")
+        }
+        
+        if components.second != nil {
+            seconds = components.second!
+            //print("\(seconds) seconds ago")
+        }
+            
+        let time = (hours, minutes, seconds)
+        
+        switch time {
+        case let (hours, minutes, _) where (hours > 0 && minutes > 0):
+            return "\(hours)h \(minutes)m"
+        case let (hours, minutes, _) where (hours > 0 && minutes == 0):
+            return "\(hours)h"
+        case let (hours, minutes, _) where (hours == 0 && minutes > 0):
+            return "\(minutes)m"
+        case let (hours, minutes, seconds) where (hours == 0 && minutes == 0 && seconds > 0):
+            return "\(seconds)s"
+        default:
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/yy"
+            let dateString = dateFormatter.string(from: date)
+            return dateString
+            
+        }
     }
 
 }

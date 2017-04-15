@@ -14,7 +14,7 @@ class TweetDetailCell: UITableViewCell {
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var retweetsFavView: UIView!
+    //@IBOutlet weak var retweetsFavView: UIView!
     @IBOutlet weak var replyImage: UIImageView!
     @IBOutlet weak var retweetImage: UIImageView!
     @IBOutlet weak var favImage: UIImageView!
@@ -55,8 +55,8 @@ class TweetDetailCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        retweetsFavView.layer.borderColor = UIColor.gray.cgColor
-        retweetsFavView.layer.borderWidth = 0.5
+      //  retweetsFavView.layer.borderColor = UIColor.gray.cgColor
+     //   retweetsFavView.layer.borderWidth = 0.5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

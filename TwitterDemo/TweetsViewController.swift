@@ -19,14 +19,14 @@ class TweetsViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 200
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
             self.tweets = tweets
             for tweet in tweets {
                 print(tweet.text!)
             }
-            
             
             let refreshControl = UIRefreshControl()
             refreshControl.addTarget(self, action: #selector(TweetsViewController.refreshControlAction(_:)), for: UIControlEvents.valueChanged)

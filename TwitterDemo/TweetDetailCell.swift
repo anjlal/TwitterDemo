@@ -30,6 +30,8 @@ class TweetDetailCell: UITableViewCell {
             if let profileUrl = user?.profileUrl {
                 self.profileImage.setImageWith(profileUrl as URL)
             }
+            profileImage.layer.cornerRadius = 3
+            profileImage.clipsToBounds = true
             
             if let screenname = user?.screenname {
                 screennameLabel.text = String("@\(screenname)")

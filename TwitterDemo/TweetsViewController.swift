@@ -16,7 +16,6 @@ class TweetsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
@@ -62,13 +61,20 @@ class TweetsViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let cell = sender as! UITableViewCell
-        let indexPath = tableView.indexPath(for: cell)
-        let tweet = tweets[(indexPath?.row)!]
-        
-        let detailViewController = segue.destination as? TweetDetailViewController
-        detailViewController?.tweet = tweet
-        
+
+        if segue.identifier == "ComposeTweet" {
+            let navigationController = segue.destination as! UINavigationController
+            let newTweetVC = navigationController.topViewController as! NewTweetViewController
+            newTweetVC.user = User.currentUser
+            
+            } else {
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPath(for: cell)
+            let tweet = tweets[(indexPath?.row)!]
+            
+            let detailViewController = segue.destination as? TweetDetailViewController
+            detailViewController?.tweet = tweet
+        }
     }
 
     

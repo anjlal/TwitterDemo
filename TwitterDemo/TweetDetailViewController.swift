@@ -19,7 +19,8 @@ class TweetDetailViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.rowHeight = 150
+        tableView.rowHeight = 200
+        tableView.reloadData()
         // Do any additional setup after loading the view.
     }
 

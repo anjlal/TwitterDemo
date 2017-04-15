@@ -14,6 +14,12 @@ class TweetDetailCell: UITableViewCell {
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var retweetsFavView: UIView!
+    @IBOutlet weak var replyImage: UIImageView!
+    @IBOutlet weak var retweetImage: UIImageView!
+    @IBOutlet weak var favImage: UIImageView!
+    @IBOutlet weak var retweetCountLabel: UILabel!
+    @IBOutlet weak var favCountLabel: UILabel!
     
     var tweetData: Tweet? {
         didSet{
@@ -28,6 +34,9 @@ class TweetDetailCell: UITableViewCell {
             if let screenname = user?.screenname {
                 screennameLabel.text = String("@\(screenname)")
             }
+            
+            retweetCountLabel.text = String(describing: tweetData?.retweetCount ?? 0)
+            favCountLabel.text = String(describing: tweetData?.favoritesCount ?? 0)
     
 //            if let since = tweetData?.timestamp?.timeIntervalSinceNow {
 //                let hours = round(since / 3600.0) * -1.0
@@ -44,6 +53,8 @@ class TweetDetailCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        retweetsFavView.layer.borderColor = UIColor.gray.cgColor
+        retweetsFavView.layer.borderWidth = 0.5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

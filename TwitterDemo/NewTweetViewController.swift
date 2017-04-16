@@ -88,7 +88,6 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     @IBAction func onTweet(_ sender: Any) {
         
         // post message
-        
         TwitterClient.sharedInstance?.postTweetMessage(textView.text!, in_reply_to_status_id: nil, completionHandler: { (response) in
             if (response["isSuccessful"] != nil) {
                 let newTweet = self.addNewTweet()
@@ -104,7 +103,7 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func onCancel(_ sender: Any) {
         if let navController = self.navigationController {
-            navController.popToRootViewController(animated: true)
+            navController.popViewController(animated: true)
                print("here")
         }
      

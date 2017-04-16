@@ -93,6 +93,10 @@
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zH1-t3-KuR">
                                                     <rect key="frame" x="43" y="5" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="EsA-91-rdh"/>
+                                                        <constraint firstAttribute="height" constant="20" id="p06-2T-nKT"/>
+                                                    </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="retweeter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QaW-48-3cy">
                                                     <rect key="frame" x="72" y="9" width="47" height="12"/>
@@ -148,6 +152,7 @@
                                             <outlet property="profileImage" destination="4ud-70-cdn" id="524-LF-w7y"/>
                                             <outlet property="replyImage" destination="t8a-rf-JjO" id="GpM-0l-zjQ"/>
                                             <outlet property="retweetImage" destination="x2i-Gg-mR0" id="VxS-nU-beQ"/>
+                                            <outlet property="retweeted" destination="2OO-gQ-pJk" id="tZv-T1-f7a"/>
                                             <outlet property="retweeterLabel" destination="QaW-48-3cy" id="6SU-OU-De2"/>
                                             <outlet property="smallRetweetImage" destination="zH1-t3-KuR" id="0hs-Tp-4ho"/>
                                             <outlet property="timestampLabel" destination="jLs-ol-jCh" id="DSi-fO-Ies"/>

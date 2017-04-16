@@ -20,13 +20,17 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var smallRetweetImage: UIImageView!
     @IBOutlet weak var retweeterLabel: UILabel!
+    @IBOutlet weak var retweeted: UILabel!
+    
+    var user: User?
+    var tweet: Tweet?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         profileImage.layer.cornerRadius = 3
         profileImage.clipsToBounds = true
-        smallRetweetImage.image = UIImage(named: "rtgrey.png")
+
         retweetImage.image = UIImage(named: "rtgrey.png")
         replyImage.image = UIImage(named: "replygrey.png")
         favoriteImage.image = UIImage(named: "favgrey.png")
@@ -34,10 +38,30 @@ class TweetCell: UITableViewCell {
     
     var tweetData: Tweet? {
         didSet{
-            let user = tweetData?.user
             
-            nameLabel.text = tweetData?.user?.name as String?
-            tweetLabel.text = tweetData?.text as String?
+           print("*******\(tweetData?.retweetedStatus)")
+
+            if let retweetedStatus = tweetData?.retweetedStatus {
+                smallRetweetImage.isHidden = false
+                smallRetweetImage.image = UIImage(named: "rtgrey.png")
+                retweeterLabel.text = tweetData?.user?.screenname as String?
+                tweet = Tweet(dictionary: retweetedStatus)
+                user = User(dictionary: retweetedStatus["user"] as! NSDictionary)
+                retweeted.isHidden = false
+                
+            } else {
+                if tweetData?.user != nil {
+                    user = (tweetData?.user)!
+                    tweet = tweetData!
+                    retweeterLabel.text = ""
+                    retweeted.isHidden = true
+                    smallRetweetImage.isHidden = true
+                    
+                }
+            }
+    
+            nameLabel.text = user?.name as String?
+            tweetLabel.text = tweet?.text as String?
             
             if let profileUrl = user?.profileUrl {
                 self.profileImage.setImageWith(profileUrl as URL)
@@ -48,6 +72,8 @@ class TweetCell: UITableViewCell {
             }
            
             timestampLabel.text = timestampConverter(date: tweetData?.timestamp! as! Date)
+            
+
 
         }
     }

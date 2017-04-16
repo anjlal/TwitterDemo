@@ -124,7 +124,7 @@ extension NewTweetViewController {
             charCountDownLabel.textColor = UIColor.red
             self.navigationItem.rightBarButtonItem?.isEnabled = false
         } else if len == 0 || textView.text == "What's happening?" {
-            charCountDownLabel.textColor = UIColor.black
+            charCountDownLabel.textColor = UIColor.darkGray
             self.navigationItem.rightBarButtonItem?.isEnabled = false
         } else {
             charCountDownLabel.textColor = UIColor.darkGray

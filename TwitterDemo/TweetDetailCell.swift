@@ -38,15 +38,6 @@ class TweetDetailCell: UITableViewCell {
             
             retweetCountLabel.text = String(describing: tweetData?.retweetCount ?? 0)
             favCountLabel.text = String(describing: tweetData?.favoritesCount ?? 0)
-    
-//            if let since = tweetData?.timestamp?.timeIntervalSinceNow {
-//                let hours = round(since / 3600.0) * -1.0
-//                if hours < 24 {
-//                    timestampLabel.text = "\(Int(hours))H"
-//                } else {
-//                    timestampLabel.text = "\(tweetData?.timestamp)"
-//                }
-//            }
             
         }
     }

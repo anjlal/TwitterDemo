@@ -96,6 +96,16 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
+    func unretweetMessage(_ id: Int, success: @escaping (Tweet) -> Void, failure: @escaping (NSError) -> Void){
+        post("1.1/statuses/unretweet/\(id).json", parameters: nil, progress: nil, success: { (operation, response) in
+            let tweet = Tweet(dictionary: response as! NSDictionary)
+            success(tweet)
+        }) { (operation, error) in
+            print("error when retweet: \(error.localizedDescription)")
+            failure(error as NSError)
+        }
+    }
+    
     func favoriteTweet(_ id: Int, success: @escaping (Tweet) -> Void, failure: @escaping (NSError) -> Void) {
         let parameters = ["id": id]
         post("1.1/favorites/create.json", parameters: parameters, progress: nil, success: { (operation, response) in

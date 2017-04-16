@@ -14,10 +14,13 @@ protocol FavoriteDelegate {
     func unfavoritedTweet(tweet: Tweet, cell: TweetCell)
 }
 
+protocol  RetweetDelegate {
+    func retweetedTweet(tweet: Tweet, cell: TweetCell)
+    func unretweetedTweet(tweet: Tweet, cell: TweetCell)
+}
+
 class TweetCell: UITableViewCell {
     @IBOutlet weak var favButton: UIButton!
-    
-   // @IBOutlet weak var favoriteImage: UIImageView!
     @IBOutlet weak var retweetImage: UIImageView!
     @IBOutlet weak var replyImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -29,11 +32,15 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweeterLabel: UILabel!
     @IBOutlet weak var retweeted: UILabel!
     @IBOutlet weak var favCountLabel: UILabel!
+    @IBOutlet weak var retweetCountLabel: UILabel!
+    
     var favTweetDelegate: FavoriteDelegate?
+    var retweetDelegate: RetweetDelegate?
     
     var user: User?
     var tweet: Tweet?
     var isFavorited = false
+    var isRetweeted = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,7 +48,6 @@ class TweetCell: UITableViewCell {
         profileImage.layer.cornerRadius = 3
         profileImage.clipsToBounds = true
 
-        retweetImage.image = UIImage(named: "rtgrey.png")
         replyImage.image = UIImage(named: "replygrey.png")
     }
     
@@ -69,6 +75,8 @@ class TweetCell: UITableViewCell {
     
             nameLabel.text = user?.name as String?
             tweetLabel.text = tweet?.text as String?
+            favCountLabel.text = String(describing: tweet?.favoritesCount ?? 0)
+            retweetCountLabel.text = String(describing: tweet?.retweetCount ?? 0)
             
             isFavorited = (tweet?.isFavorited as Bool?)!
             
@@ -158,11 +166,34 @@ class TweetCell: UITableViewCell {
         //likeButton.setImage(UIImage(named: "like-red"), for: .normal)
     }
     
+    func decreaseRetweetCountandImageColor() {
+        if ((tweet?.retweetCount)! - 1 < 0) {
+            retweetCountLabel.text = String(0)
+        } else {
+            retweetCountLabel.text = String((tweet?.retweetCount)! - 1)
+        }
+        isRetweeted = false
+        
+    }
+    func increaseRetweetCountAndImageColor() {
+        retweetCountLabel.text = String((tweet?.retweetCount)! + 1)
+        isRetweeted = true
+        //likeButton.setImage(UIImage(named: "like-red"), for: .normal)
+    }
+
+    
     @IBAction func onFavorite(_ sender: Any) {
         if isFavorited {
             self.favTweetDelegate?.unfavoritedTweet(tweet: tweetData!, cell: self)
         } else {
-        self.favTweetDelegate?.favoritedTweet(tweet: tweetData!, cell: self)
+            self.favTweetDelegate?.favoritedTweet(tweet: tweetData!, cell: self)
+        }
+    }
+    @IBAction func onRetweet(_ sender: Any) {
+        if isRetweeted {
+            self.retweetDelegate?.unretweetedTweet(tweet: tweetData!, cell: self)
+        } else {
+            self.retweetDelegate?.retweetedTweet(tweet: tweetData!, cell: self)
         }
     }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, FavoriteDelegate {
+class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate {
     
     var tweets: [Tweet]!
 
@@ -107,6 +107,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
         cell.tweetData = tweets?[indexPath.row] ?? nil
         cell.favTweetDelegate = self
+        cell.retweetDelegate = self
         return cell
     }
 
@@ -125,6 +126,22 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     func unfavoritedTweet(tweet: Tweet, cell: TweetCell) {
         TwitterClient.sharedInstance?.unfavoriteTweet(tweet.id!, success: { (tweet) in
                 cell.decreaseFavCountandImageColor()
+        }, failure: { (error) in
+            print(error)
+        })
+    }
+    
+    func retweetedTweet(tweet: Tweet, cell: TweetCell) {
+        TwitterClient.sharedInstance?.retweetMessage(tweet.id!, success: { (tweet) in
+            cell.increaseRetweetCountAndImageColor()
+        }, failure: { (error) in
+            print(error)
+        })
+    }
+    
+    func unretweetedTweet(tweet: Tweet, cell: TweetCell) {
+        TwitterClient.sharedInstance?.unretweetMessage(tweet.id!, success: { (tweet) in
+            cell.decreaseRetweetCountandImageColor()
         }, failure: { (error) in
             print(error)
         })

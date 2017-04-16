@@ -27,6 +27,13 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         textView.delegate = self
         
+         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)
+        
+        let logo = UIImage(named: "logo.png")
+        let imageView = UIImageView(image: logo)
+        imageView.contentMode = .scaleAspectFit // set imageview's content mode
+        self.navigationItem.titleView = imageView
+        
         nameLabel.text = user?.name as String?
         screennameLabel.text = "@\(user?.screenname as String? ?? "")"
         if let profileUrl = user?.profileUrl {
@@ -104,7 +111,7 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     @IBAction func onCancel(_ sender: Any) {
         if let navController = self.navigationController {
             navController.popViewController(animated: true)
-               print("here")
+               print(navController)
         }
      
     }

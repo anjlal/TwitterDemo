@@ -22,11 +22,11 @@ class User: NSObject {
         
         name = dictionary["name"] as? NSString
         screenname = dictionary["screen_name"] as? NSString
-        let profileUrlString = dictionary["profile_image_url_https"]
-        if let profileUrlString = profileUrlString {
-            profileUrl = NSURL(string: profileUrlString as! String)
-            
+        
+        if let profileUrlString = dictionary["profile_image_url_https"] as? String {
+            profileUrl = URL(string: profileUrlString) as NSURL?
         }
+
         tagline = dictionary["description"] as? String as NSString?
 
     }

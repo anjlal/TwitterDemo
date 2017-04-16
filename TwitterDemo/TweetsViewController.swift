@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate {
+class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate, AddTweetDelegate {
     
     var tweets: [Tweet]!
 
@@ -52,6 +52,12 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate 
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func addTweet(tweet: Tweet) {
+        tweets.insert(tweet, at: 0)
+        tableView.reloadData()
+    }
+
     
     @IBAction func onLogoutButton(_ sender: Any) {
         TwitterClient.sharedInstance?.logout()

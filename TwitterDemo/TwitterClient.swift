@@ -129,4 +129,21 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
         
     }
+    
+    func postTweetMessage(_ tweetMessage: String!, in_reply_to_status_id: Int?, completionHandler: @escaping ([String: Any]) -> Void) {
+        
+        var parameters: [String: String] = ["status": tweetMessage]
+        
+        if let id = in_reply_to_status_id {
+            parameters["in_reply_to_status_id"] = String(id)
+        }
+        
+        post("1.1/statuses/update.json", parameters: parameters, progress: nil, success: { (operation, response) in
+            completionHandler(["isSuccessful": true, "responseObject": response as Any])
+        }) { (operation, error) in
+            print("error when post a new tweet: \(error.localizedDescription)")
+            completionHandler(["error": error.localizedDescription])
+        }
+        
+    }
 }

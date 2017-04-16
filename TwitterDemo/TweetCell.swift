@@ -30,7 +30,6 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var smallRetweetImage: UIImageView!
     @IBOutlet weak var retweeterLabel: UILabel!
-    @IBOutlet weak var retweeted: UILabel!
     @IBOutlet weak var favCountLabel: UILabel!
     @IBOutlet weak var retweetCountLabel: UILabel!
     
@@ -57,17 +56,15 @@ class TweetCell: UITableViewCell {
             if let retweetedStatus = tweetData?.retweetedStatus {
                 smallRetweetImage.isHidden = false
                 smallRetweetImage.image = UIImage(named: "rtgrey.png")
-                retweeterLabel.text = tweetData?.user?.screenname as String?
+                retweeterLabel.text = "\(tweetData?.user?.screenname as String? ?? "") retweeted"
+                retweeterLabel.isHidden = false
                 tweet = Tweet(dictionary: retweetedStatus)
-                user = User(dictionary: retweetedStatus["user"] as! NSDictionary)
-                retweeted.isHidden = false
-                
+                user = User(dictionary: retweetedStatus["user"] as! NSDictionary)                
             } else {
                 if tweetData?.user != nil {
                     user = (tweetData?.user)!
                     tweet = tweetData!
-                    retweeterLabel.text = ""
-                    retweeted.isHidden = true
+                    retweeterLabel.isHidden = true
                     smallRetweetImage.isHidden = true
                     
                 }

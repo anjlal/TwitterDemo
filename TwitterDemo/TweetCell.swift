@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import AFNetworking
+
+protocol FavoriteDelegate {
+    func favoritedTweet(tweet: Tweet, cell: TweetCell)
+    func unfavoritedTweet(tweet: Tweet, cell: TweetCell)
+}
 
 class TweetCell: UITableViewCell {
+    @IBOutlet weak var favButton: UIButton!
     
-    @IBOutlet weak var favoriteImage: UIImageView!
+   // @IBOutlet weak var favoriteImage: UIImageView!
     @IBOutlet weak var retweetImage: UIImageView!
     @IBOutlet weak var replyImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -21,9 +28,12 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var smallRetweetImage: UIImageView!
     @IBOutlet weak var retweeterLabel: UILabel!
     @IBOutlet weak var retweeted: UILabel!
+    @IBOutlet weak var favCountLabel: UILabel!
+    var favTweetDelegate: FavoriteDelegate?
     
     var user: User?
     var tweet: Tweet?
+    var isFavorited = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,13 +43,10 @@ class TweetCell: UITableViewCell {
 
         retweetImage.image = UIImage(named: "rtgrey.png")
         replyImage.image = UIImage(named: "replygrey.png")
-        favoriteImage.image = UIImage(named: "favgrey.png")
     }
     
     var tweetData: Tweet? {
         didSet{
-            
-           print("*******\(tweetData?.retweetedStatus)")
 
             if let retweetedStatus = tweetData?.retweetedStatus {
                 smallRetweetImage.isHidden = false
@@ -62,6 +69,8 @@ class TweetCell: UITableViewCell {
     
             nameLabel.text = user?.name as String?
             tweetLabel.text = tweet?.text as String?
+            
+            isFavorited = (tweet?.isFavorited as Bool?)!
             
             if let profileUrl = user?.profileUrl {
                 self.profileImage.setImageWith(profileUrl as URL)
@@ -108,12 +117,10 @@ class TweetCell: UITableViewCell {
         // same with minutes
         if components.minute != nil {
             minutes = components.minute!
-            //print("\(minutes) minutes ago")
         }
         
         if components.second != nil {
             seconds = components.second!
-            //print("\(seconds) seconds ago")
         }
             
         let time = (hours, minutes, seconds)
@@ -133,6 +140,29 @@ class TweetCell: UITableViewCell {
             let dateString = dateFormatter.string(from: date)
             return dateString
             
+        }
+    }
+    
+    func decreaseFavCountandImageColor() {
+        if ((tweet?.favoritesCount)! - 1 < 0) {
+            favCountLabel.text = String(0)
+        } else {
+            favCountLabel.text = String((tweet?.favoritesCount)! - 1)
+        }
+        isFavorited = false
+
+    }
+    func increaseFavCountAndImageColor() {
+        favCountLabel.text = String((tweet?.favoritesCount)! + 1)
+        isFavorited = true
+        //likeButton.setImage(UIImage(named: "like-red"), for: .normal)
+    }
+    
+    @IBAction func onFavorite(_ sender: Any) {
+        if isFavorited {
+            self.favTweetDelegate?.unfavoritedTweet(tweet: tweetData!, cell: self)
+        } else {
+        self.favTweetDelegate?.favoritedTweet(tweet: tweetData!, cell: self)
         }
     }
 

@@ -85,4 +85,38 @@ class TwitterClient: BDBOAuth1SessionManager {
             self.loginFailure?(error!)
         }
     }
+    
+    func retweetMessage(_ id: Int, success: @escaping (Tweet) -> Void, failure: @escaping (NSError) -> Void){
+        post("1.1/statuses/retweet/\(id).json", parameters: nil, progress: nil, success: { (operation, response) in
+            let tweet = Tweet(dictionary: response as! NSDictionary)
+            success(tweet)
+        }) { (operation, error) in
+            print("error when retweet: \(error.localizedDescription)")
+            failure(error as NSError)
+        }
+    }
+    
+    func favoriteTweet(_ id: Int, success: @escaping (Tweet) -> Void, failure: @escaping (NSError) -> Void) {
+        let parameters = ["id": id]
+        post("1.1/favorites/create.json", parameters: parameters, progress: nil, success: { (operation, response) in
+            let tweet = Tweet(dictionary: response as! NSDictionary)
+            success(tweet)
+        }) { (operation, error) in
+            print("error when favorite a tweet: \(error.localizedDescription)")
+            failure(error as NSError)
+        }
+    }
+    
+    func unfavoriteTweet(_ id: Int, success: @escaping (Tweet) -> Void, failure: @escaping (NSError) -> Void) {
+        let parameters = ["id": id]
+        
+        post("1.1/favorites/destroy.json", parameters: parameters, progress: nil, success: { (operation, response) in
+            let tweet = Tweet(dictionary: response as! NSDictionary)
+            success(tweet)
+        }) { (operation, error) in
+            print("Failed to unfavorite tweet. \(error.localizedDescription)")
+            failure(error as NSError)
+        }
+        
+    }
 }

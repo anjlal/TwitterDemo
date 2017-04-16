@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController {
+class TweetsViewController: UIViewController, FavoriteDelegate {
     
     var tweets: [Tweet]!
 
@@ -86,9 +86,9 @@ class TweetsViewController: UIViewController {
 
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
             self.tweets = tweets
-            for tweet in tweets {
-                print(tweet.text!)
-            }
+//            for tweet in tweets {
+//                print(tweet.text!)
+//            }
             // Reload the tableView now that there is new data
             self.tableView.reloadData()
             
@@ -106,10 +106,27 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
         cell.tweetData = tweets?[indexPath.row] ?? nil
+        cell.favTweetDelegate = self
         return cell
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets?.count ?? 0
+    }
+    
+    func favoritedTweet(tweet: Tweet, cell: TweetCell) {
+        TwitterClient.sharedInstance?.favoriteTweet(tweet.id!, success: { (tweet) in
+                cell.increaseFavCountAndImageColor()
+        }, failure: { (error) in
+            print(error)
+        })
+    }
+    
+    func unfavoritedTweet(tweet: Tweet, cell: TweetCell) {
+        TwitterClient.sharedInstance?.unfavoriteTweet(tweet.id!, success: { (tweet) in
+                cell.decreaseFavCountandImageColor()
+        }, failure: { (error) in
+            print(error)
+        })
     }
 }

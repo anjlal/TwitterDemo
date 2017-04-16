@@ -19,10 +19,13 @@ protocol  RetweetDelegate {
     func unretweetedTweet(tweet: Tweet, cell: TweetCell)
 }
 
+protocol ReplyDelegate {
+    func replyButtonTapped(cell: TweetCell)
+}
+
 class TweetCell: UITableViewCell {
     @IBOutlet weak var favButton: UIButton!
     @IBOutlet weak var retweetImage: UIImageView!
-    @IBOutlet weak var replyImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
@@ -35,6 +38,7 @@ class TweetCell: UITableViewCell {
     
     var favTweetDelegate: FavoriteDelegate?
     var retweetDelegate: RetweetDelegate?
+    var replyDelegate: ReplyDelegate?
     
     var user: User?
     var tweet: Tweet?
@@ -46,8 +50,6 @@ class TweetCell: UITableViewCell {
         // Initialization code
         profileImage.layer.cornerRadius = 3
         profileImage.clipsToBounds = true
-
-        replyImage.image = UIImage(named: "replygrey.png")
     }
     
     var tweetData: Tweet? {
@@ -192,6 +194,9 @@ class TweetCell: UITableViewCell {
         } else {
             self.retweetDelegate?.retweetedTweet(tweet: tweetData!, cell: self)
         }
+    }
+    @IBAction func onReply(_ sender: Any) {
+        replyDelegate?.replyButtonTapped(cell: self)
     }
 
 }

@@ -8,12 +8,12 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate, AddTweetDelegate {
+class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,AddTweetDelegate, ReplyDelegate {
     
     var tweets: [Tweet]!
+    var replyTweet: Tweet?
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var replyImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +65,6 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
         TwitterClient.sharedInstance?.logout()
     }
 
-
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -76,7 +75,17 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
             let newTweetVC = navigationController.topViewController as! NewTweetViewController
             newTweetVC.user = User.currentUser
             
-            } else {
+        } else if segue.identifier == "ReplyTweet" {
+           let navigationController = segue.destination as! UINavigationController
+            let replyTweetVC = navigationController.topViewController as? NewTweetViewController
+            let screenname = replyTweet?.user?.screenname
+            let replyToStatusId = replyTweet?.id
+            replyTweetVC?.replyToUser = replyToStatusId ?? nil
+            replyTweetVC?.user = User.currentUser
+            replyTweetVC?.screenname = screenname as String?
+            
+            
+        } else {
             let cell = sender as! UITableViewCell
             let indexPath = tableView.indexPath(for: cell)
             let tweet = tweets[(indexPath?.row)!]
@@ -107,6 +116,8 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
             print("error: \(error.localizedDescription)")
         })
     }
+    
+    
 
 }
 
@@ -116,6 +127,8 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.tweetData = tweets?[indexPath.row] ?? nil
         cell.favTweetDelegate = self
         cell.retweetDelegate = self
+        cell.replyDelegate = self
+        
         return cell
     }
 
@@ -153,5 +166,10 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         }, failure: { (error) in
             print(error)
         })
+    }
+    
+    func replyButtonTapped(cell: TweetCell) {
+        let indexPath = self.tableView.indexPathForRow(at: cell.center)!
+        replyTweet = tweets![indexPath.row]
     }
 }

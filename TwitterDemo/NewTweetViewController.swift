@@ -21,6 +21,9 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var textView: UITextView!
     
     var user: User?
+    var replyToUser: Int?
+    var screenname: String?
+    
     var delegate: AddTweetDelegate?
     
     override func viewDidLoad() {
@@ -43,7 +46,12 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
         profileImage.clipsToBounds = true
         //textField.becomeFirstResponder()
         
-        textView.text = "What's happening?"
+        if let screenname = screenname {
+            textView.textColor = .black
+            textView.text = "@\(screenname)"
+        } else {
+            textView.text = "What's happening?"
+        }
         textView.font = UIFont(name: (textView.font?.fontName)!, size: 17)
         textView.textColor = .lightGray
         
@@ -78,9 +86,9 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func onTweet(_ sender: Any) {
-        
+        let statusId = replyToUser ?? nil
         // post message
-        TwitterClient.sharedInstance?.postTweetMessage(textView.text!, in_reply_to_status_id: nil, completionHandler: { (response) in
+        TwitterClient.sharedInstance?.postTweetMessage(textView.text!, in_reply_to_status_id: statusId, completionHandler: { (response) in
             if (response["isSuccessful"] != nil) {
                 let newTweet = self.addNewTweet()
                 self.delegate?.addTweet(tweet:newTweet)
@@ -106,11 +114,19 @@ extension NewTweetViewController {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         if(text == "\n") {
+            if let screenname = screenname {
+                textView.textColor = .black
+                textView.text = "@\(screenname)"
+            }
             textView.resignFirstResponder()
             return false
         }
-        guard let text = textView.text else { return true }
-        let length = text.characters.count - range.length
+        var screennameLen = 0
+        //guard let text = textView.text else { return true }
+        if let screenname = screenname {
+            screennameLen = screenname.characters.count + 2
+        }
+        let length = text.characters.count - range.length - screennameLen
 
         // if you want to limit to 140 charakters
         // you need to return true and <= 140
@@ -118,24 +134,36 @@ extension NewTweetViewController {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let len = textView.text.characters.count
-        charCountDownLabel.text = String(format:"%i", (140-len))
-        if len > 140 {
-            charCountDownLabel.textColor = UIColor.red
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-        } else if len == 0 || textView.text == "What's happening?" {
-            charCountDownLabel.textColor = UIColor.darkGray
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-        } else {
-            charCountDownLabel.textColor = UIColor.darkGray
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        var screennameLen = 0
+        if let screenname = screenname {
+            screennameLen = screenname.characters.count + 2
         }
-
+        let len = textView.text.characters.count - screennameLen
+        if len < 0 {
+            charCountDownLabel.text = String(140)
+        } else {
+            charCountDownLabel.text = String(format:"%i", (140-len))
+            if len > 140 {
+                charCountDownLabel.textColor = UIColor.red
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+            } else if len == 0 || textView.text == "What's happening?" {
+                charCountDownLabel.textColor = UIColor.darkGray
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+            } else {
+                charCountDownLabel.textColor = UIColor.darkGray
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+            }
+        }
+        
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .lightGray {
-            textView.text = ""
+            if let screenname = screenname {
+                textView.text = "@\(screenname)"
+            } else {
+               textView.text = ""
+            }
             textView.textColor = .black
         }
     }

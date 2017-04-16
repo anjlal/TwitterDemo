@@ -47,7 +47,8 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
         textView.font = UIFont(name: (textView.font?.fontName)!, size: 17)
         textView.textColor = .lightGray
         
-        
+        navigationItem.rightBarButtonItem?.isEnabled = false
+
         // Do any additional setup after loading the view.
     }
 
@@ -55,22 +56,6 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-//    
-//    func setupCharCounterLabelInNavBar() {
-//        if let navigationBar = self.navigationController?.navigationBar {
-//            
-//            charCounterLabel = UILabel(frame: CGRect(x: navigationBar.frame.width-120, y: (navigationBar.frame.height - 20)/2, width: 40, height: 20))
-//            charCounterLabel.text = "140"
-//            charCounterLabel.textColor = UIColor(red: 242/255, green: 239/255, blue: 239/255, alpha: 1)
-//            charCounterLabel.font = UIFont(name: charCounterLabel.font.fontName, size: 14)
-//            navigationBar.addSubview(charCounterLabel)
-//            
-//        }
-//    }
-//    
-//    func removeCharCountLabel() {
-//        charCounterLabel.removeFromSuperview()
-//    }
 
     /*
     // MARK: - Navigation
@@ -99,7 +84,7 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
             if (response["isSuccessful"] != nil) {
                 let newTweet = self.addNewTweet()
                 self.delegate?.addTweet(tweet:newTweet)
-                self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true, completion: nil)
             }
             else{
                 print("could not post tweet")
@@ -109,10 +94,8 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func onCancel(_ sender: Any) {
-        if let navController = self.navigationController {
-            navController.popViewController(animated: true)
-               print(navController)
-        }
+        textView.resignFirstResponder()
+        dismiss(animated: true, completion: nil)
      
     }
 
@@ -122,18 +105,32 @@ extension NewTweetViewController {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
         guard let text = textView.text else { return true }
-        let length = text.characters.count + text.characters.count - range.length
-        
-        let count = 140 - length
-        
-        // set the .text property of your UILabel to the live created String
-        charCountDownLabel.text = String(count)
-        
+        let length = text.characters.count - range.length
+
         // if you want to limit to 140 charakters
         // you need to return true and <= 140
-        
         return length <= 140 // To just allow up to 140 characters
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let len = textView.text.characters.count
+        charCountDownLabel.text = String(format:"%i", (140-len))
+        if len > 140 {
+            charCountDownLabel.textColor = UIColor.red
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+        } else if len == 0 || textView.text == "What's happening?" {
+            charCountDownLabel.textColor = UIColor.black
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            charCountDownLabel.textColor = UIColor.darkGray
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        }
+
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -142,5 +139,7 @@ extension NewTweetViewController {
             textView.textColor = .black
         }
     }
+    
+
     
 }

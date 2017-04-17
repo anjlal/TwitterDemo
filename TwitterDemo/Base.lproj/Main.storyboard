@@ -176,6 +176,7 @@
                                             <outlet property="favCountLabel" destination="Hme-9Z-O93" id="Mq5-YV-2QT"/>
                                             <outlet property="nameLabel" destination="kai-X6-J73" id="R1p-lo-GQe"/>
                                             <outlet property="profileImage" destination="4ud-70-cdn" id="524-LF-w7y"/>
+                                            <outlet property="retweetButton" destination="Nke-gt-Pco" id="o6a-UU-URF"/>
                                             <outlet property="retweetCountLabel" destination="v8S-nQ-2PM" id="JZR-YN-0PA"/>
                                             <outlet property="retweeterLabel" destination="QaW-48-3cy" id="6SU-OU-De2"/>
                                             <outlet property="smallRetweetImage" destination="zH1-t3-KuR" id="0hs-Tp-4ho"/>
@@ -497,9 +498,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="favButton" destination="2c3-wo-HUG" id="OrW-C2-ZgX"/>
                                             <outlet property="favCountLabel" destination="NpY-fe-MJY" id="JkC-si-flK"/>
                                             <outlet property="nameLabel" destination="rYr-pM-HYP" id="Mj3-75-L2m"/>
                                             <outlet property="profileImage" destination="hBw-D4-x7o" id="MQz-bs-uS6"/>
+                                            <outlet property="retweetButton" destination="dLd-fG-L9G" id="cFE-Lo-spz"/>
                                             <outlet property="retweetCountLabel" destination="L4C-wE-msc" id="spT-J4-xSQ"/>
                                             <outlet property="retweeterLabel" destination="rbx-0G-C04" id="gEb-rr-rzV"/>
                                             <outlet property="screennameLabel" destination="50S-VA-fCT" id="DEv-dh-1zz"/>

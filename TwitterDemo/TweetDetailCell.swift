@@ -19,6 +19,8 @@ class TweetDetailCell: UITableViewCell {
     @IBOutlet weak var retweeterLabel: UILabel!
     @IBOutlet weak var smallRetweetImage: UIImageView!
     @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var retweetButton: UIButton!
+    @IBOutlet weak var favButton: UIButton!
     
     var user: User?
     var tweet: Tweet?
@@ -51,6 +53,17 @@ class TweetDetailCell: UITableViewCell {
             retweetCountLabel.text = String(describing: tweet?.retweetCount ?? 0)
             
             isFavorited = (tweet?.isFavorited as Bool?)!
+            
+            isRetweeted = (tweet?.isRetweeted as Bool?)!
+
+            if isFavorited {
+                favButton.setImage(UIImage(named: "faved.png"), for: .normal)
+            }
+            
+            if isRetweeted {
+                retweetButton.setImage(UIImage(named: "rted.png"), for: .normal)
+            }
+
             
             if let profileUrl = user?.profileUrl {
                 self.profileImage.setImageWith(profileUrl as URL)

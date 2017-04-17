@@ -138,7 +138,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func favoritedTweet(tweet: Tweet, cell: TweetCell) {
         TwitterClient.sharedInstance?.favoriteTweet(tweet.id!, success: { (tweet) in
-                cell.increaseFavCountAndImageColor()
+                cell.increaseFavCountAndImageColor(updatedCount: tweet.favoritesCount)
         }, failure: { (error) in
             print(error)
         })
@@ -146,7 +146,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func unfavoritedTweet(tweet: Tweet, cell: TweetCell) {
         TwitterClient.sharedInstance?.unfavoriteTweet(tweet.id!, success: { (tweet) in
-                cell.decreaseFavCountandImageColor()
+                cell.decreaseFavCountandImageColor(updatedCount:  tweet.favoritesCount)
         }, failure: { (error) in
             print(error)
         })
@@ -154,7 +154,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func retweetedTweet(tweet: Tweet, cell: TweetCell) {
         TwitterClient.sharedInstance?.retweetMessage(tweet.id!, success: { (tweet) in
-            cell.increaseRetweetCountAndImageColor()
+            cell.increaseRetweetCountAndImageColor(updatedCount: tweet.retweetCount)
         }, failure: { (error) in
             print(error)
         })
@@ -162,7 +162,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func unretweetedTweet(tweet: Tweet, cell: TweetCell) {
         TwitterClient.sharedInstance?.unretweetMessage(tweet.id!, success: { (tweet) in
-            cell.decreaseRetweetCountandImageColor()
+            cell.decreaseRetweetCountandImageColor(updatedCount: tweet.retweetCount-1)
         }, failure: { (error) in
             print(error)
         })

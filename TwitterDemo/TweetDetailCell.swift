@@ -14,9 +14,6 @@ class TweetDetailCell: UITableViewCell {
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var replyImage: UIImageView!
-    @IBOutlet weak var retweetImage: UIImageView!
-    @IBOutlet weak var favImage: UIImageView!
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favCountLabel: UILabel!
     @IBOutlet weak var retweeterLabel: UILabel!
@@ -74,9 +71,6 @@ class TweetDetailCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.favImage.image = UIImage(named: "favgrey.png")
-        self.replyImage.image = UIImage(named: "replygrey.png")
-        self.retweetImage.image = UIImage(named: "rtgrey.png")
         profileImage.layer.cornerRadius = 3
         profileImage.clipsToBounds = true
     }

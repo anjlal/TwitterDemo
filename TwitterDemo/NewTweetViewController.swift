@@ -127,8 +127,7 @@ extension NewTweetViewController {
             screennameLen = screenname.characters.count + 2
         }
         let length = text.characters.count - range.length - screennameLen
-
-        // if you want to limit to 140 charakters
+                // if you want to limit to 140 charakters
         // you need to return true and <= 140
         return length <= 140 // To just allow up to 140 characters
     }

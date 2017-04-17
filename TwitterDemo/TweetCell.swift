@@ -23,7 +23,9 @@ protocol ReplyDelegate {
     func replyButtonTapped(cell: TweetCell)
 }
 
-class TweetCell: UITableViewCell {
+class TweetCell: UITableViewCell, TweetDetailViewRetweetDelegate, TweetDetailViewFavDelegate
+{
+
     @IBOutlet weak var favButton: UIButton!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -195,12 +197,31 @@ class TweetCell: UITableViewCell {
     }
 
     
+    func updateCellRetweetIconState(tweet: Tweet) {
+        if tweet.isRetweeted! {
+            increaseRetweetCountAndImageColor(updatedCount: tweet.retweetCount)
+        }
+        else {
+            decreaseRetweetCountandImageColor(updatedCount: tweet.retweetCount - 1)
+        }
+    }
+    
+    func updateCellFavIconState(tweet: Tweet) {
+        if tweet.isFavorited! {
+            increaseFavCountAndImageColor(updatedCount: tweet.favoritesCount)
+            
+        }else {
+            decreaseFavCountandImageColor(updatedCount: tweet.favoritesCount)
+        }
+    }
+    
     @IBAction func onFavorite(_ sender: Any) {
         if isFavorited {
             self.favTweetDelegate?.unfavoritedTweet(tweet: tweetData!, cell: self)
         } else {
             self.favTweetDelegate?.favoritedTweet(tweet: tweetData!, cell: self)
         }
+        updateCellFavIconState(tweet: tweetData!)
     }
     @IBAction func onRetweet(_ sender: Any) {
         if isRetweeted {
@@ -208,6 +229,7 @@ class TweetCell: UITableViewCell {
         } else {
             self.retweetDelegate?.retweetedTweet(tweet: tweetData!, cell: self)
         }
+        updateCellRetweetIconState(tweet: tweetData!)
     }
     @IBAction func onReply(_ sender: Any) {
         replyDelegate?.replyButtonTapped(cell: self)

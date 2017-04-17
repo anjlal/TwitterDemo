@@ -44,7 +44,6 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
         }
         profileImage.layer.cornerRadius = 3
         profileImage.clipsToBounds = true
-        //textField.becomeFirstResponder()
         
         if let screenname = screenname {
             textView.textColor = .black

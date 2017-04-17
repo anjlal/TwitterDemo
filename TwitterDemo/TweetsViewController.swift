@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,AddTweetDelegate, ReplyDelegate {
+class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate, AddTweetDelegate, ReplyDelegate {
     
     var tweets: [Tweet]!
     var replyTweet: Tweet?
@@ -92,6 +92,7 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
             
             let detailViewController = segue.destination as? TweetDetailViewController
             detailViewController?.tweet = tweet
+            print(detailViewController?.tweet?.isFavorited! ?? false)
         }
     }
 

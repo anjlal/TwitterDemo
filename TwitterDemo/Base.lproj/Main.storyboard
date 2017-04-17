@@ -300,7 +300,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kJx-Li-J9v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1383" y="-1356"/>
+            <point key="canvasLocation" x="-894" y="-1379"/>
         </scene>
         <!--Tweet Detail View Controller-->
         <scene sceneID="IaG-KJ-3Ml">
@@ -426,6 +426,9 @@
                                                         <constraint firstAttribute="width" constant="30" id="ipj-1R-7hP"/>
                                                     </constraints>
                                                     <state key="normal" image="favgrey"/>
+                                                    <connections>
+                                                        <action selector="onFavorite:" destination="5Ps-tb-EMS" eventType="touchUpInside" id="RXN-4E-qHf"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLd-fG-L9G">
                                                     <rect key="frame" x="130" y="201" width="30" height="30"/>
@@ -434,6 +437,9 @@
                                                         <constraint firstAttribute="height" constant="30" id="snd-Yh-XDF"/>
                                                     </constraints>
                                                     <state key="normal" image="rtgrey"/>
+                                                    <connections>
+                                                        <action selector="onRetweet:" destination="5Ps-tb-EMS" eventType="touchUpInside" id="zyo-zr-vda"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hv9-Za-lWA">
                                                     <rect key="frame" x="52" y="202" width="30" height="30"/>
@@ -442,6 +448,10 @@
                                                         <constraint firstAttribute="width" constant="30" id="rV2-IJ-YZz"/>
                                                     </constraints>
                                                     <state key="normal" image="replygrey"/>
+                                                    <connections>
+                                                        <action selector="onReply:" destination="5Ps-tb-EMS" eventType="touchUpInside" id="6CF-Qf-b0l"/>
+                                                        <segue destination="yx7-p5-2r1" kind="presentation" identifier="ReplyTweetFromDetail" id="On9-3D-bXV"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -528,7 +538,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yex-sv-oEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="629.60000000000002" y="-625.63718140929541"/>
+            <point key="canvasLocation" x="298" y="-1537"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -598,7 +608,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yTs-eY-2f7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2860" y="-1378"/>
+            <point key="canvasLocation" x="-266" y="-2341"/>
         </scene>
     </scenes>
     <resources>
@@ -607,6 +617,6 @@
         <image name="rtgrey" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rWH-JI-b2T"/>
+        <segue reference="On9-3D-bXV"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,6 +8,18 @@
 
 import UIKit
 
+protocol TweetDetailViewRetweetDelegate {
+    func updateCellRetweetIconState(tweet: Tweet)
+}
+
+protocol TweetDetailViewFavDelegate {
+    func updateCellFavIconState(tweet: Tweet)
+}
+
+protocol ReplyFromDetailDelegate {
+    func replyButtonTapped(cell: TweetDetailCell)
+}
+
 class TweetDetailCell: UITableViewCell {
     
     @IBOutlet weak var profileImage: UIImageView!
@@ -26,10 +38,15 @@ class TweetDetailCell: UITableViewCell {
     var tweet: Tweet?
     var isFavorited = false
     var isRetweeted = false
+    
+    var replyDelegate: ReplyFromDetailDelegate?
+    var tweetDetailRetweetDelegate: TweetDetailViewRetweetDelegate?
+    var tweetDetailFavDelegate: TweetDetailViewFavDelegate?
+    
+    var count = 0
 
     var tweetData: Tweet? {
         didSet{
-            
             if let retweetedStatus = tweetData?.retweetedStatus {
                 smallRetweetImage.isHidden = false
                 smallRetweetImage.image = UIImage(named: "rtgrey.png")
@@ -52,19 +69,22 @@ class TweetDetailCell: UITableViewCell {
             favCountLabel.text = String(describing: tweet?.favoritesCount ?? 0)
             retweetCountLabel.text = String(describing: tweet?.retweetCount ?? 0)
             
-            isFavorited = (tweet?.isFavorited as Bool?)!
-            
-            isRetweeted = (tweet?.isRetweeted as Bool?)!
-
+            isFavorited = (tweet?.isFavorited!)!
             if isFavorited {
                 favButton.setImage(UIImage(named: "faved.png"), for: .normal)
+            } else {
+                favButton.setImage(UIImage(named: "favgrey.png"), for: .normal)
             }
             
+            isRetweeted = (tweet?.isRetweeted!)!
             if isRetweeted {
                 retweetButton.setImage(UIImage(named: "rted.png"), for: .normal)
+
+            } else {
+                retweetButton.setImage(UIImage(named: "rtgrey.png"), for: .normal)
             }
 
-            
+
             if let profileUrl = user?.profileUrl {
                 self.profileImage.setImageWith(profileUrl as URL)
             }
@@ -94,4 +114,76 @@ class TweetDetailCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func onRetweet(_ sender: Any) {
+
+        if isRetweeted {
+            TwitterClient.sharedInstance?.unretweetMessage((tweet?.id!)!, success: { (tweet) in
+                DispatchQueue.main.async {
+                    tweet.isRetweeted = false
+                    self.isRetweeted = false
+                    self.retweetCountLabel.text =  String(tweet.retweetCount - 1)
+                    self.retweetButton.setImage(UIImage(named: "rtgrey.png"), for: .normal)
+                    self.tweetDetailRetweetDelegate?.updateCellRetweetIconState(tweet: tweet)
+                }
+                
+            }, failure: { (error) in
+                print(error)
+            })
+            
+        }else {
+            TwitterClient.sharedInstance?.retweetMessage((tweet?.id!)!, success: { (tweet) in
+                DispatchQueue.main.async {
+                    tweet.isRetweeted = true
+                    self.isRetweeted = true
+                    self.retweetCountLabel.text =  String(tweet.retweetCount)
+                    self.retweetButton.setImage(UIImage(named: "rted"), for: .normal)
+                    self.tweetDetailRetweetDelegate?.updateCellRetweetIconState(tweet: tweet)
+                }
+            }, failure: { (error) in
+                print(error)
+            })
+        }
+    }
+    
+    @IBAction func onFavorite(_ sender: Any) {
+
+        if isFavorited {
+            TwitterClient.sharedInstance?.unfavoriteTweet((tweet?.id!)!, success: { (tweet) in
+                DispatchQueue.main.async {
+                    tweet.isFavorited = false
+                    self.isFavorited = false
+                    self.favCountLabel.text =  String(tweet.favoritesCount)
+                    self.favButton.setImage(UIImage(named: "favgrey.png"), for: .normal)
+                    self.tweetDetailFavDelegate?.updateCellFavIconState(tweet: tweet)
+                }
+            }, failure: { (error) in
+                print(error)
+            })
+        }
+        else {
+            TwitterClient.sharedInstance?.favoriteTweet((tweet?.id!)!, success: { (tweet) in
+                DispatchQueue.main.async {
+                    tweet.isFavorited = true
+                    self.isFavorited = true
+                    self.favCountLabel.text =  String(tweet.favoritesCount)
+                    self.favButton.setImage(UIImage(named: "faved.png"), for: .normal)
+                    self.tweetDetailFavDelegate?.updateCellFavIconState(tweet: tweet)
+                }
+            }, failure: { (error) in
+                print(error)
+            })
+        }
+    }
+    
+    @IBAction func onReply(_ sender: Any) {
+        replyDelegate?.replyButtonTapped(cell: self)
+    }
+    
+    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //if segue.identifier == "ReplyTweet" {
+          //  let vc = segue.destination as! NewTweetViewController
+            //vc.tweet = tweet
+      //  }
+    }
+    
 }

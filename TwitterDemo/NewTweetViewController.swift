@@ -113,10 +113,10 @@ extension NewTweetViewController {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         if(text == "\n") {
-            if let screenname = screenname {
-                textView.textColor = .black
-                textView.text = "@\(screenname)"
-            }
+//            if let screenname = screenname {
+//               // textView.textColor = .black
+//               // textView.text = "@\(screenname)"
+//            }
             textView.resignFirstResponder()
             return false
         }

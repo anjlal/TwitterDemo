@@ -148,6 +148,7 @@ class TweetDetailCell: UITableViewCell {
     @IBAction func onFavorite(_ sender: Any) {
 
         if isFavorited {
+
             TwitterClient.sharedInstance?.unfavoriteTweet((tweet?.id!)!, success: { (tweet) in
                 DispatchQueue.main.async {
                     tweet.isFavorited = false
@@ -178,12 +179,6 @@ class TweetDetailCell: UITableViewCell {
     @IBAction func onReply(_ sender: Any) {
         replyDelegate?.replyButtonTapped(cell: self)
     }
-    
-    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //if segue.identifier == "ReplyTweet" {
-          //  let vc = segue.destination as! NewTweetViewController
-            //vc.tweet = tweet
-      //  }
-    }
+ 
     
 }

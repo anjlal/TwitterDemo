@@ -9,7 +9,7 @@
 import UIKit
 
 
-class TweetDetailViewController: UIViewController, ReplyFromDetailDelegate {
+class TweetDetailViewController: UIViewController, ReplyFromDetailDelegate, TweetDetailViewRetweetDelegate, TweetDetailViewFavDelegate {
     
     var tweet: Tweet?
     var replyTweet: Tweet?
@@ -60,6 +60,8 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetDetailCell", for: indexPath) as! TweetDetailCell
         cell.replyDelegate = self
         cell.tweetData = tweet
+        cell.tweetDetailFavDelegate = self
+        cell.tweetDetailRetweetDelegate = self
         return cell
     }
     
@@ -70,5 +72,54 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
     func replyButtonTapped(cell: TweetDetailCell) {
         replyTweet = tweet
     }
+    
+    func updateCellRetweetIconState(tweet: Tweet) {
+        if tweet.isRetweeted! {
+           // increaseRetweetCountAndImageColor(updatedCount: tweet.retweetCount)
+        }
+        else {
+          //  decreaseRetweetCountandImageColor(updatedCount: tweet.retweetCount - 1)
+        }
+    }
+    
+    func updateCellFavIconState(tweet: Tweet) {
+        if tweet.isFavorited! {
+          //  increaseFavCountAndImageColor(updatedCount: tweet.favoritesCount)
+            
+        }else {
+          //  decreaseFavCountandImageColor(updatedCount: tweet.favoritesCount)
+        }
+    }
+//    
+//    func decreaseFavCountandImageColor(updatedCount: Int) {
+//        tweet?.favoritesCount = updatedCount
+//        favCountLabel.text = String(describing: (tweet?.favoritesCount)!)
+//        favButton.setImage(UIImage(named: "favgrey.png"), for: .normal)
+//        isFavorited = false
+//        
+//    }
+//    func increaseFavCountAndImageColor(updatedCount: Int) {
+//        tweet?.favoritesCount = updatedCount
+//        favCountLabel.text = String(describing: (tweet?.favoritesCount)!)
+//        isFavorited = true
+//        favButton.setImage(UIImage(named: "faved.png"), for: .normal)
+//    }
+//    
+//    func decreaseRetweetCountandImageColor(updatedCount: Int) {
+//        tweet?.retweetCount = updatedCount
+//        retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
+//    
+//        retweetButton.setImage(UIImage(named: "rtgrey.png"), for: .normal)
+//        isRetweeted = false
+//        
+//    }
+//    func increaseRetweetCountAndImageColor(updatedCount: Int) {
+//        tweet?.retweetCount = updatedCount
+//        retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
+//        isRetweeted = true
+//        retweetButton.setImage(UIImage(named: "rted.png"), for: .normal)
+//    }
+
+
 
 }

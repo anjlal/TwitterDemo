@@ -1,4 +1,4 @@
-# Project 3 - *Name of App Here*
+# Project 3 - Twitter Demo
 
 Twitter Demo is a basic twitter app to read and compose tweets from the [Twitter API](https://apps.twitter.com/).
 
@@ -32,13 +32,13 @@ The following **additional** features are implemented:
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. I'd like to spend more time on delegates -- they seem to be powerful and I want to make sure I'm leveraging them appropriately.
-2. 
+2. I'd like to discuss best practices for inserting animations.
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![alt tag](https://raw.githubusercontent.com/anjlal/twitterdemo/master/twitterdemo.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

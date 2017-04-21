@@ -1,4 +1,4 @@
-# Project 3 - *Name of App Here*
+# Project 3 - Twitter Demo
 
 Twitter Demo is a basic twitter app to read and compose tweets from the [Twitter API](https://apps.twitter.com/).
 
@@ -23,29 +23,28 @@ The following **optional** features are implemented:
 - [x] Retweeting and favoriting should increment the retweet and favorite count.
 - [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count.
 - [x] Replies should be prefixed with the username and the reply_id should be set when posting the tweet,
-- [] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
+[] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+[x] Spent time adding additonal logic to the character limit. 
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. I'd like to spend more time on delegates -- they seem to be powerful and I want to make sure I'm leveraging them appropriately.
-2. 
+2. I'd like to discuss best practices for inserting animations.
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![alt tag](https://raw.githubusercontent.com/anjlal/twitterdemo/master/twitterdemo.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-I wasn't able to successfully unretweet in the detail view if a tweet had been retweeted in the timeline; I'd like to explore that more. 
-Overall, I spent more time on UI as compared to previous projects (especially auto-layout) and feel like I understand delegates better.
+I wasn't able to successfully unretweet in the detail view if a tweet had been retweeted in the timeline; I'd like to explore that more. Overall, I spent more time on UI as compared to previous projects (especially auto-layout) and feel like I understand delegates better. Also I was able to get the composed tweet to show up without having to make a newtwork call, but I think something broke in between now and then. I will fix.
 
 ## License
 

@@ -31,6 +31,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         UINavigationBar.appearance().barTintColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
         
+//        let hamburgerViewController = window!.rootViewController as! HamburgerViewController
+//        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//
+//        let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+//        
+//        menuViewController.hamburgerViewController = hamburgerViewController
+//        hamburgerViewController.menuViewController = menuViewController
+        
         return true
     }
 

@@ -57,6 +57,7 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
     
     func addTweet(tweet: Tweet) {
         tweets.insert(tweet, at: 0)
+        print("got here")
         tableView.reloadData()
     }
 
@@ -85,6 +86,9 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
             replyTweetVC?.screenname = screenname as String?
             
             
+        } else if segue.identifier == "Profile" {
+            let navigationController = segue.destination as! UINavigationController
+            let profileVC = navigationController.topViewController as? ProfileViewController
         } else {
             let cell = sender as! UITableViewCell
             let indexPath = tableView.indexPath(for: cell)
@@ -104,9 +108,6 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
 
         TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
             self.tweets = tweets
-//            for tweet in tweets {
-//                print(tweet.text!)
-//            }
             // Reload the tableView now that there is new data
             self.tableView.reloadData()
             
@@ -129,12 +130,20 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.favTweetDelegate = self
         cell.retweetDelegate = self
         cell.replyDelegate = self
+        cell.profileImage.tag = indexPath.row
+        //let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTap))
+        //cell.profileImage.addGestureRecognizer(gestureRecognizer)
+        cell.profileImage.isUserInteractionEnabled = true
         
         return cell
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets?.count ?? 0
+    }
+    
+    func onTap(_ sender: UITapGestureRecognizer) {
+        performSegue(withIdentifier: "Profile", sender: self)
     }
     
     func favoritedTweet(tweet: Tweet, cell: TweetCell) {

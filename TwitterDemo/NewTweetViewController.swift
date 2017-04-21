@@ -90,6 +90,7 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
         TwitterClient.sharedInstance?.postTweetMessage(textView.text!, in_reply_to_status_id: statusId, completionHandler: { (response) in
             if (response["isSuccessful"] != nil) {
                 let newTweet = self.addNewTweet()
+                print(newTweet)
                 self.delegate?.addTweet(tweet:newTweet)
                 self.dismiss(animated: true, completion: nil)
             }

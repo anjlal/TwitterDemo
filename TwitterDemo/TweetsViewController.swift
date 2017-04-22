@@ -12,6 +12,7 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
     
     var tweets: [Tweet]!
     var replyTweet: Tweet?
+    var profile: User?
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -90,6 +91,13 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
             let backItem = UIBarButtonItem()
             backItem.title = ""
             navigationItem.backBarButtonItem = backItem
+            let profileVC = segue.destination as! ProfileViewController
+            
+            if let profile = profile {
+                print("****profile \(profile)")
+                profileVC.userData = profile
+            }
+            
         } else {
             let cell = sender as! UITableViewCell
             let indexPath = tableView.indexPath(for: cell)
@@ -135,6 +143,7 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTap))
         cell.profileImage.addGestureRecognizer(gestureRecognizer)
         cell.profileImage.isUserInteractionEnabled = true
+        cell.profileImage.tag = indexPath.row
         
         return cell
     }
@@ -144,7 +153,18 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func onTap(_ sender: UITapGestureRecognizer) {
+        if let tappedRow = sender.view?.tag {
+            let tweet = tweets[tappedRow]
+            
+           // print("***TWEET\(tweet.user!)")
+            
+            if let tappedUser = tweet.user {
+                profile = tappedUser
+               // print("**** \(profile!)")
+            }
+        }
         performSegue(withIdentifier: "Profile", sender: self)
+        
     }
     
     func favoritedTweet(tweet: Tweet, cell: TweetCell) {

@@ -13,13 +13,22 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     
     var tweets: [Tweet]!
-    
+    var userScreenname: String?
+    var userData: User? {
+        didSet {
+            if let udata = userData {
+                print("***user screenname\(udata.screenname!)")
+                userScreenname = udata.screenname! as String
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.estimatedRowHeight = 40
+        tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)
@@ -29,8 +38,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
         header.backgroundColor = .red
         tableView.tableHeaderView = header
+
+        userScreenname = userScreenname ?? User.currentUser?.screenname as String?
         
-        TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
+        TwitterClient.sharedInstance?.userTimeline(userScreenname!, success: { (tweets: [Tweet]) in
             self.tweets = tweets
             for tweet in tweets {
                 print(tweet.text!)
@@ -62,17 +73,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return tweets?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
-        cell.tweetData = tweets?[indexPath.row] ?? nil
-//        cell.favTweetDelegate = self
-//        cell.retweetDelegate = self
-//        cell.replyDelegate = self
-//        cell.profileImage.tag = indexPath.row
-        //let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTap))
-        //cell.profileImage.addGestureRecognizer(gestureRecognizer)
-        //cell.profileImage.isUserInteractionEnabled = true
         
-        return cell
+        if indexPath.row == 0 {
+           let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileStatsCell", for: indexPath) as! ProfileStatsCell
+            cell.userData = User.currentUser
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
+            cell.tweetData = tweets?[indexPath.row] ?? nil
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -86,6 +96,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return v
     }
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
 
     /*
     // MARK: - Navigation

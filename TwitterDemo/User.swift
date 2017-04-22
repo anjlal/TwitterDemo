@@ -11,14 +11,22 @@ import Foundation
 
 class User: NSObject {
 
+    var userId: Int?
     var name: NSString?
     var screenname: NSString?
     var profileUrl: NSURL?
     var tagline: NSString?
     var dictionary: NSDictionary?
+    var followersCount: Int?
+    var friendsCount: Int?
+    var favoritesCount: Int?
+    var tweetsCount: Int?
+    var profileBannerUrl: NSURL?
     
     init(dictionary: NSDictionary) {
         self.dictionary = dictionary
+        
+        userId = dictionary["user_id"] as? Int
         
         name = dictionary["name"] as? NSString
         screenname = dictionary["screen_name"] as? NSString
@@ -27,7 +35,16 @@ class User: NSObject {
             profileUrl = URL(string: profileUrlString) as NSURL?
         }
 
+        if let profileBannerUrlString = dictionary["profile_banner_url"] as? String {
+            profileBannerUrl = URL(string: profileBannerUrlString) as NSURL?
+        }
+        
         tagline = dictionary["description"] as? String as NSString?
+        
+        followersCount = dictionary["followers_count"] as? Int
+        friendsCount = dictionary["friends_count"] as? Int
+        favoritesCount = dictionary["favourites_count"] as? Int
+        tweetsCount = dictionary["statuses_count"] as? Int
 
     }
     

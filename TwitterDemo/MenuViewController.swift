@@ -47,7 +47,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath) as! MenuCell
         
-        let titles = ["Green", "Blue", "Pink"]
+        let titles = ["Profile", "Timeline", "Mentions"]
         cell.menuTitleLabel.text = titles[indexPath.row]
         
         return cell

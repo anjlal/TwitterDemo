@@ -11,6 +11,9 @@ import UIKit
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
+    
+    var tweets: [Tweet]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -19,11 +22,33 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.estimatedRowHeight = 40
         tableView.rowHeight = UITableViewAutomaticDimension
         
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)
+        
         self.automaticallyAdjustsScrollViewInsets = false
         
         let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
         header.backgroundColor = .red
         tableView.tableHeaderView = header
+        
+        TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
+            self.tweets = tweets
+            for tweet in tweets {
+                print(tweet.text!)
+            }
+            
+            let refreshControl = UIRefreshControl()
+            refreshControl.addTarget(self, action: #selector(TweetsViewController.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+            
+            // add refresh control to table view
+            self.tableView.insertSubview(refreshControl, at: 0)
+            // Reload the tableView now that there is new data
+            self.tableView.reloadData()
+            
+        }, failure: { (error: Error) in
+            print("error: \(error.localizedDescription)")
+        })
+        
+
 
         // Do any additional setup after loading the view.
     }
@@ -34,11 +59,19 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return tweets?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "ProfileCell")
-        cell.textLabel?.text = "\(indexPath.row)"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
+        cell.tweetData = tweets?[indexPath.row] ?? nil
+//        cell.favTweetDelegate = self
+//        cell.retweetDelegate = self
+//        cell.replyDelegate = self
+//        cell.profileImage.tag = indexPath.row
+        //let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTap))
+        //cell.profileImage.addGestureRecognizer(gestureRecognizer)
+        //cell.profileImage.isUserInteractionEnabled = true
+        
         return cell
     }
     

@@ -87,8 +87,9 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
             
             
         } else if segue.identifier == "Profile" {
-            let navigationController = segue.destination as! UINavigationController
-            let profileVC = navigationController.topViewController as? ProfileViewController
+            let backItem = UIBarButtonItem()
+            backItem.title = ""
+            navigationItem.backBarButtonItem = backItem
         } else {
             let cell = sender as! UITableViewCell
             let indexPath = tableView.indexPath(for: cell)
@@ -131,8 +132,8 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.retweetDelegate = self
         cell.replyDelegate = self
         cell.profileImage.tag = indexPath.row
-        //let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTap))
-        //cell.profileImage.addGestureRecognizer(gestureRecognizer)
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onTap))
+        cell.profileImage.addGestureRecognizer(gestureRecognizer)
         cell.profileImage.isUserInteractionEnabled = true
         
         return cell

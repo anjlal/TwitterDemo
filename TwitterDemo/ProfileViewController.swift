@@ -16,11 +16,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var userScreenname: String?
     var userData: User? {
         didSet {
-            if let udata = userData {
-                print("***user screenname\(udata.screenname!)")
-                userScreenname = udata.screenname! as String
+            
+            reloadData()
+//            if let udata = userData {
+//                print("***user screenname\(udata.screenname!)")
+//                userScreenname = udata.screenname! as String
             }
-        }
+//        }    
     }
 
     override func viewDidLoad() {
@@ -38,9 +40,39 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
         header.backgroundColor = .red
         tableView.tableHeaderView = header
-
-        userScreenname = userScreenname ?? User.currentUser?.screenname as String?
         
+        reloadData()
+        print("*****\(userScreenname!)")
+//       
+//        TwitterClient.sharedInstance?.userTimeline(userScreenname!, success: { (tweets: [Tweet]) in
+//            self.tweets = tweets
+//            for tweet in tweets {
+//                print(tweet.text!)
+//            }
+//            
+//            let refreshControl = UIRefreshControl()
+//            refreshControl.addTarget(self, action: #selector(TweetsViewController.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+//            
+//            // add refresh control to table view
+//            self.tableView.insertSubview(refreshControl, at: 0)
+//            // Reload the tableView now that there is new data
+//            self.tableView.reloadData()
+//            
+//        }, failure: { (error: Error) in
+//            print("error: \(error.localizedDescription)")
+//        })
+//        
+
+
+        // Do any additional setup after loading the view.
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated
+    }
+    
+    func fetchUserTimeline() {
         TwitterClient.sharedInstance?.userTimeline(userScreenname!, success: { (tweets: [Tweet]) in
             self.tweets = tweets
             for tweet in tweets {
@@ -58,15 +90,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }, failure: { (error: Error) in
             print("error: \(error.localizedDescription)")
         })
-        
-
-
-        // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func reloadData() {
+        if let udata = userData {
+            userScreenname = udata.screenname! as String
+            
+            fetchUserTimeline()
+        }
+    }
+    
+    func catchNotification() {
+        print("hello")
+//        guard let name = notification.userInfo!["name"] else { return }
+//        
+//        print("My name, \(name) has been passed! 😄")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -76,7 +114,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if indexPath.row == 0 {
            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileStatsCell", for: indexPath) as! ProfileStatsCell
-            cell.userData = User.currentUser
+            cell.user = userData
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell

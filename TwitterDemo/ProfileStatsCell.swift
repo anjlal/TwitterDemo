@@ -18,19 +18,19 @@ class ProfileStatsCell: UITableViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     
 
-    var userData: User? {
+    var user: User? {
         didSet{
-            tweetsCountLabel.text = String(describing: userData?.tweetsCount! ?? 0)
-            followingCountLabel.text = String(describing: userData?.friendsCount! ?? 0)
-            followersCountLabel.text = String(describing: userData?.followersCount! ?? 0)
+            tweetsCountLabel.text = String(describing: user?.tweetsCount! ?? 0)
+            followingCountLabel.text = String(describing: user?.friendsCount! ?? 0)
+            followersCountLabel.text = String(describing: user?.followersCount! ?? 0)
             
-            nameLabel.text = userData?.name as String?
+            nameLabel.text = user?.name as String?
 
-            if let screenname = userData?.screenname {
+            if let screenname = user?.screenname {
                 usernameLabel.text = String("@\(screenname)")
             }
             
-            if let profileUrl = userData?.profileUrl {
+            if let profileUrl = user?.profileUrl {
                 self.profileImage.setImageWith(profileUrl as URL)
             }
         }

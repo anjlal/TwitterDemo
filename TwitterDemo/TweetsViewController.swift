@@ -156,13 +156,14 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
         if let tappedRow = sender.view?.tag {
             let tweet = tweets[tappedRow]
             
-           // print("***TWEET\(tweet.user!)")
-            
             if let tappedUser = tweet.user {
                 profile = tappedUser
-               // print("**** \(profile!)")
+
             }
         }
+    
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ProfileNotification"), object: nil)
+        //NotificationCenter.default.post(name: Notification.Name("ProfileNotification"), object: nil, userInfo: ["profile": profile!])
         performSegue(withIdentifier: "Profile", sender: self)
         
     }

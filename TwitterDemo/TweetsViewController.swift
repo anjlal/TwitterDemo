@@ -88,15 +88,21 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
             
             
         } else if segue.identifier == "Profile" {
-            let navVC = segue.destination as! UINavigationController
-            let profileVC = navVC.topViewController as! ProfileViewController
-            let backItem = UIBarButtonItem()
-            backItem.title = "Back"
-            navigationItem.backBarButtonItem = backItem
+//            let navVC = segue.destination as! UINavigationController
+//            let profileVC = navVC.topViewController as! ProfileViewController
+//            let backItem = UIBarButtonItem()
+//            backItem.title = "Back"
+//            navigationItem.backBarButtonItem = backItem
+//            
+//            if let profile = profile {
+//                print("****profile \(profile)")
+//                profileVC.userData = profile
+           // }
             
+            let profileViewController = segue.destination as! ProfileViewController
             if let profile = profile {
                 print("****profile \(profile)")
-                profileVC.userData = profile
+                profileViewController.userData = profile
             }
             
         } else {

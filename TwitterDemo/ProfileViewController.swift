@@ -49,25 +49,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)]
         
-        //scrollView.delegate = self
-        //scrollView.contentSize = CGSize(width: self.view.bounds.width * 2, height: 33)
-//        scrollView.contentSize = CGSize(width:self.scrollView.frame.width * 4, height:self.scrollView.frame.height)
-//        scrollView.isPagingEnabled = true
-//        scrollView.showsHorizontalScrollIndicator = false
-//        scrollView.addSubview(profileDescriptionLabel)
         pageControl.currentPage = 0
         
         setup()
-        
-        //self.headerHeightConstraint.constant = self.maxHeaderHeight
-
-        //profileBannerImage.setImageWith(userData?.profileBannerUrl as! URL)
-        
-//        self.automaticallyAdjustsScrollViewInsets = false
-//        
-//        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
-//        header.backgroundColor = .red
-//        tableView.tableHeaderView = header
         
         if bannerUrl !=  nil {
             profileBannerImage.setImageWith(bannerUrl!)
@@ -161,6 +145,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                                 self.nameLabel.isHidden = false
                                 self.usernameLabel.isHidden = false
                                 self.profileDescriptionLabel.isHidden = true
+                                self.profileBannerImage.alpha = 1.0
             }, completion: nil)
 
         } else {
@@ -172,33 +157,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                                 self.nameLabel.isHidden = true
                                 self.usernameLabel.isHidden = true
                                 self.profileDescriptionLabel.isHidden = false
+                                self.profileBannerImage.alpha = 0.4
             }, completion: nil)
         }
-       
-        
-        
-//                                let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-//                                let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//                                blurEffectView.frame = self.profileBannerImage.bounds
-//                                blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//                                self.profileBannerImage.addSubview(blurEffectView)
-       
-
     }
-//    
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        // Test the offset and calculate the current page after scrolling ends
-//        let pageWidth:CGFloat = scrollView.frame.width
-//        let currentPage:CGFloat = floor((scrollView.contentOffset.x-pageWidth/2)/pageWidth)+1
-//        // Change the indicator
-//        self.pageControl.currentPage = Int(currentPage);
-//        // Change the text accordingly
-//        if Int(currentPage) == 0{
-//            profileDescriptionLabel.text = ""
-//        }else  {
-//            profileDescriptionLabel.text = userData?.tagline as String? ?? ""
-//        }
-//    }
     
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
         

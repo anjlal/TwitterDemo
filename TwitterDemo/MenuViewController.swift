@@ -44,8 +44,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        tableView.tableFooterView = UIView(frame: .zero)
-
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 1))
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

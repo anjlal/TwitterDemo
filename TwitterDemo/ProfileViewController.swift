@@ -14,6 +14,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
    // @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var profileDescriptionLabel: UILabel!
+    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var tweetsCountLabel: UILabel!
     @IBOutlet weak var followingCountLabel: UILabel!
     @IBOutlet weak var followersCountLabel: UILabel!
@@ -45,6 +48,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)]
+        
+        //scrollView.delegate = self
+        //scrollView.contentSize = CGSize(width: self.view.bounds.width * 2, height: 33)
+//        scrollView.contentSize = CGSize(width:self.scrollView.frame.width * 4, height:self.scrollView.frame.height)
+//        scrollView.isPagingEnabled = true
+//        scrollView.showsHorizontalScrollIndicator = false
+//        scrollView.addSubview(profileDescriptionLabel)
+        pageControl.currentPage = 0
         
         setup()
         
@@ -90,6 +101,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         followersCountLabel.text = numberFormatter.string(from: NSNumber(value: (userData?.followersCount)!))
         
         nameLabel.text = userData?.name as String?
+        profileDescriptionLabel.text = userData?.tagline as String? ?? ""
+        profileDescriptionLabel.isHidden = true
         
         if let screenname = userData?.screenname {
             usernameLabel.text = String("@\(screenname)")
@@ -133,18 +146,59 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return tweets?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-//        if indexPath.row == 0 {
-//           let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileStatsCell", for: indexPath) as! ProfileStatsCell
-//            cell.user = userData
-//            return cell
-//        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
-            cell.tweetData = tweets?[indexPath.row] ?? nil
-            cell.user = userData
-            return cell
-        //}
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
+        cell.tweetData = tweets?[indexPath.row] ?? nil
+        cell.user = userData
+        return cell
     }
+    @IBAction func onPage(_ sender: Any) {
+        
+        if self.pageControl.currentPage == 0 {
+            UIView.transition(with: nameLabel,
+                              duration: 0.5,
+                              options: [.transitionFlipFromRight],
+                              animations: {
+                                self.nameLabel.isHidden = false
+                                self.usernameLabel.isHidden = false
+                                self.profileDescriptionLabel.isHidden = true
+            }, completion: nil)
+
+        } else {
+            UIView.transition(with: profileDescriptionLabel,
+                              duration: 0.5,
+                              options: [.transitionFlipFromLeft],
+                              animations: {
+                                
+                                self.nameLabel.isHidden = true
+                                self.usernameLabel.isHidden = true
+                                self.profileDescriptionLabel.isHidden = false
+            }, completion: nil)
+        }
+       
+        
+        
+//                                let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+//                                let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//                                blurEffectView.frame = self.profileBannerImage.bounds
+//                                blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//                                self.profileBannerImage.addSubview(blurEffectView)
+       
+
+    }
+//    
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        // Test the offset and calculate the current page after scrolling ends
+//        let pageWidth:CGFloat = scrollView.frame.width
+//        let currentPage:CGFloat = floor((scrollView.contentOffset.x-pageWidth/2)/pageWidth)+1
+//        // Change the indicator
+//        self.pageControl.currentPage = Int(currentPage);
+//        // Change the text accordingly
+//        if Int(currentPage) == 0{
+//            profileDescriptionLabel.text = ""
+//        }else  {
+//            profileDescriptionLabel.text = userData?.tagline as String? ?? ""
+//        }
+//    }
     
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
         
@@ -160,25 +214,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             print("error: \(error.localizedDescription)")
         })
     }
-
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        print("YOOOOOO")
-//           headerView.backgroundColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)
-////        let v = UIView()
-////        v.backgroundColor = .white
-////        let segmentedControl = UISegmentedControl(frame: CGRect(x: 10, y: 5, width: tableView.frame.width - 20, height: 30))
-////        segmentedControl.insertSegment(withTitle: "One", at: 0, animated: false)
-////        segmentedControl.insertSegment(withTitle: "Two", at: 1, animated: false)
-////        segmentedControl.insertSegment(withTitle: "Three", at: 2, animated: false)
-////        v.addSubview(segmentedControl)
-////        return v
-//        return headerView
-//    }
-
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 2
-//    }
 
     /*
     // MARK: - Navigation

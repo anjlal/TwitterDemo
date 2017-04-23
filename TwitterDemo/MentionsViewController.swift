@@ -8,28 +8,35 @@
 
 import UIKit
 
-class MentionsViewController: TweetsViewController {
+protocol LoadMentionsDelegate {
+     func loadMentions()
+}
+
+class MentionsViewController: UIViewController {
+    
+    var loadMentionsDelegate: LoadMentionsDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        TwitterClient.sharedInstance?.mentionsTimeline(success: { (tweets: [Tweet]) in
-            self.tweets = tweets
-            for tweet in tweets {
-                print(tweet.text!)
-            }
-            
-            let refreshControl = UIRefreshControl()
-            refreshControl.addTarget(self, action: #selector(MentionsViewController.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
-            
-            // add refresh control to table view
-            self.tableView.insertSubview(refreshControl, at: 0)
-            // Reload the tableView now that there is new data
-            self.tableView.reloadData()
-            
-        }, failure: { (error: Error) in
-            print("error: \(error.localizedDescription)")
-        })
+        self.loadMentionsDelegate?.loadMentions()
+        //
+//        TwitterClient.sharedInstance?.mentionsTimeline(success: { (tweets: [Tweet]) in
+//            self.tweets = tweets
+//            for tweet in tweets {
+//                print(tweet.text!)
+//            }
+//            
+//            let refreshControl = UIRefreshControl()
+//            refreshControl.addTarget(self, action: #selector(MentionsViewController.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+//            
+//            // add refresh control to table view
+//            self.tableView.insertSubview(refreshControl, at: 0)
+//            // Reload the tableView now that there is new data
+//            self.tableView.reloadData()
+//            
+//        }, failure: { (error: Error) in
+//            print("error: \(error.localizedDescription)")
+//        })
 
 
         // Do any additional setup after loading the view.
@@ -39,21 +46,21 @@ class MentionsViewController: TweetsViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        
-        TwitterClient.sharedInstance?.mentionsTimeline(success: { (tweets: [Tweet]) in
-            self.tweets = tweets
-            // Reload the tableView now that there is new data
-            self.tableView.reloadData()
-            
-            // Tell the refreshControl to stop spinning
-            refreshControl.endRefreshing()
-            
-        }, failure: { (error: Error) in
-            print("error: \(error.localizedDescription)")
-        })
-    }
-//    
+//    func refreshControlAction(_ refreshControl: UIRefreshControl) {
+//        
+//        TwitterClient.sharedInstance?.mentionsTimeline(success: { (tweets: [Tweet]) in
+//            self.tweets = tweets
+//            // Reload the tableView now that there is new data
+//            self.tableView.reloadData()
+//            
+//            // Tell the refreshControl to stop spinning
+//            refreshControl.endRefreshing()
+//            
+//        }, failure: { (error: Error) in
+//            print("error: \(error.localizedDescription)")
+//        })
+//    }
+//
 //    override func getTweets(refreshing : Bool, maxID: String?) {
 //        twitterAPIService.getMentionsTimeline(maxID: maxID) {
 //            (tweets: [Tweet]?, error: Error?) in

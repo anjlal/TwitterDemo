@@ -28,7 +28,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         tweetsViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
-         profileViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController")
+        profileViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController")
         mentionsViewController = storyboard.instantiateViewController(withIdentifier: "MentionsNavigationController")
         
         viewControllers.append(profileViewController)
@@ -61,6 +61,9 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.deselectRow(at: indexPath, animated: true)
         
         hamburgerViewController.contentViewController = viewControllers[indexPath.row]
+//        if indexPath.row == 2 {
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: "MentionsNotification"), object: self)
+//        }
     }
     
 

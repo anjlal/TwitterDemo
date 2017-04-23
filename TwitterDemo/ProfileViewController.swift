@@ -11,8 +11,15 @@ import UIKit
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var profileBannerImage: UIImageView!
-    @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
+   // @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var tweetsCountLabel: UILabel!
+    @IBOutlet weak var followingCountLabel: UILabel!
+    @IBOutlet weak var followersCountLabel: UILabel!
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
     
     @IBOutlet weak var headerView: UIView!
     let maxHeaderHeight: CGFloat = 160
@@ -37,7 +44,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)
         
-        self.headerHeightConstraint.constant = self.maxHeaderHeight
+        setup()
+        
+        //self.headerHeightConstraint.constant = self.maxHeaderHeight
 
         //profileBannerImage.setImageWith(userData?.profileBannerUrl as! URL)
         
@@ -64,6 +73,31 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated
     }
     
+    func setup() {
+        
+        profileImage.layer.cornerRadius = 3
+        profileImage.clipsToBounds = true
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        if userData == nil {
+            userData = User.currentUser
+        }
+        tweetsCountLabel.text = numberFormatter.string(from: NSNumber(value: (userData?.tweetsCount)!))
+        followingCountLabel.text = numberFormatter.string(from: NSNumber(value: (userData?.friendsCount)!))
+        followersCountLabel.text = numberFormatter.string(from: NSNumber(value: (userData?.followersCount)!))
+        
+        nameLabel.text = userData?.name as String?
+        
+        if let screenname = userData?.screenname {
+            usernameLabel.text = String("@\(screenname)")
+        }
+        
+        if let profileUrl = userData?.profileUrl {
+            self.profileImage.setImageWith(profileUrl as URL)
+        }
+    }
+
     func fetchUserTimeline() {
         TwitterClient.sharedInstance?.userTimeline(userScreenname!, success: { (tweets: [Tweet]) in
             self.tweets = tweets
@@ -98,15 +132,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
-           let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileStatsCell", for: indexPath) as! ProfileStatsCell
-            cell.user = userData
-            return cell
-        } else {
+//        if indexPath.row == 0 {
+//           let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileStatsCell", for: indexPath) as! ProfileStatsCell
+//            cell.user = userData
+//            return cell
+//        } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             cell.tweetData = tweets?[indexPath.row] ?? nil
+            cell.user = userData
             return cell
-        }
+        //}
     }
     
     func refreshControlAction(_ refreshControl: UIRefreshControl) {

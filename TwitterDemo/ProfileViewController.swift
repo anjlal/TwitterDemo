@@ -9,20 +9,22 @@
 import UIKit
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
+    @IBOutlet weak var profileBannerImage: UIImageView!
+    @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var headerView: UIView!
+    let maxHeaderHeight: CGFloat = 160
+    let minHeaderHeight: CGFloat = 80
+    var previousScrollOffset: CGFloat = 0
     var tweets: [Tweet]!
     var userScreenname: String?
+    var bannerUrl: URL?
     var userData: User? {
         didSet {
-            
             reloadData()
-//            if let udata = userData {
-//                print("***user screenname\(udata.screenname!)")
-//                userScreenname = udata.screenname! as String
-            }
-//        }    
+        }
     }
 
     override func viewDidLoad() {
@@ -35,34 +37,23 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)
         
-        self.automaticallyAdjustsScrollViewInsets = false
+        self.headerHeightConstraint.constant = self.maxHeaderHeight
+        //profileBannerImage.setImageWith(userData?.profileBannerUrl as! URL)
         
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
-        header.backgroundColor = .red
-        tableView.tableHeaderView = header
+//        self.automaticallyAdjustsScrollViewInsets = false
+//        
+//        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
+//        header.backgroundColor = .red
+//        tableView.tableHeaderView = header
+        
+        if bannerUrl !=  nil {
+            profileBannerImage.setImageWith(bannerUrl!)
+        }
+
+        userData = userData ?? User.currentUser
+        userScreenname = userScreenname ?? User.currentUser?.screenname! as String?
         
         reloadData()
-        print("*****\(userScreenname!)")
-//       
-//        TwitterClient.sharedInstance?.userTimeline(userScreenname!, success: { (tweets: [Tweet]) in
-//            self.tweets = tweets
-//            for tweet in tweets {
-//                print(tweet.text!)
-//            }
-//            
-//            let refreshControl = UIRefreshControl()
-//            refreshControl.addTarget(self, action: #selector(TweetsViewController.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
-//            
-//            // add refresh control to table view
-//            self.tableView.insertSubview(refreshControl, at: 0)
-//            // Reload the tableView now that there is new data
-//            self.tableView.reloadData()
-//            
-//        }, failure: { (error: Error) in
-//            print("error: \(error.localizedDescription)")
-//        })
-//        
-
 
         // Do any additional setup after loading the view.
     }
@@ -80,7 +71,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             
             let refreshControl = UIRefreshControl()
-            refreshControl.addTarget(self, action: #selector(TweetsViewController.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+            refreshControl.addTarget(self, action: #selector(ProfileViewController.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
             
             // add refresh control to table view
             self.tableView.insertSubview(refreshControl, at: 0)
@@ -95,16 +86,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     func reloadData() {
         if let udata = userData {
             userScreenname = udata.screenname! as String
+            bannerUrl = udata.profileBannerUrl
             
             fetchUserTimeline()
         }
-    }
-    
-    func catchNotification() {
-        print("hello")
-//        guard let name = notification.userInfo!["name"] else { return }
-//        
-//        print("My name, \(name) has been passed! 😄")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -123,20 +108,39 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let v = UIView()
-        v.backgroundColor = .white
-        let segmentedControl = UISegmentedControl(frame: CGRect(x: 10, y: 5, width: tableView.frame.width - 20, height: 30))
-        segmentedControl.insertSegment(withTitle: "One", at: 0, animated: false)
-        segmentedControl.insertSegment(withTitle: "Two", at: 1, animated: false)
-        segmentedControl.insertSegment(withTitle: "Three", at: 2, animated: false)
-        v.addSubview(segmentedControl)
-        return v
+    func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        
+        TwitterClient.sharedInstance?.userTimeline(userScreenname!, success: { (tweets: [Tweet]) in
+            self.tweets = tweets
+            // Reload the tableView now that there is new data
+            self.tableView.reloadData()
+            
+            // Tell the refreshControl to stop spinning
+            refreshControl.endRefreshing()
+            
+        }, failure: { (error: Error) in
+            print("error: \(error.localizedDescription)")
+        })
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        print("YOOOOOO")
+//           headerView.backgroundColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)
+////        let v = UIView()
+////        v.backgroundColor = .white
+////        let segmentedControl = UISegmentedControl(frame: CGRect(x: 10, y: 5, width: tableView.frame.width - 20, height: 30))
+////        segmentedControl.insertSegment(withTitle: "One", at: 0, animated: false)
+////        segmentedControl.insertSegment(withTitle: "Two", at: 1, animated: false)
+////        segmentedControl.insertSegment(withTitle: "Three", at: 2, animated: false)
+////        v.addSubview(segmentedControl)
+////        return v
+//        return headerView
+//    }
+
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 2
+//    }
 
     /*
     // MARK: - Navigation

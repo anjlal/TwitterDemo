@@ -1,14 +1,14 @@
 //
-//  PinkViewController.swift
+//  MentionsViewController.swift
 //  TwitterDemo
 //
-//  Created by Angie Lal on 4/19/17.
+//  Created by Angie Lal on 4/22/17.
 //  Copyright © 2017 Angie Lal. All rights reserved.
 //
 
 import UIKit
 
-class PinkViewController: UIViewController {
+class MentionsViewController: TweetsViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

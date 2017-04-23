@@ -12,10 +12,11 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBOutlet weak var tableView: UITableView!
     
-    private var greenNavigationController: UIViewController!
-    private var blueNavigationController: UIViewController!
-    private var pinkNavigationController: UIViewController!
+    private var tweetsViewController: UIViewController!
+    //private var mentionsViewController: UIViewController!
+    private var profileViewController: UIViewController!
     
+    let titles = ["Profile", "Timeline"]
     var viewControllers: [UIViewController] = []
     
     var hamburgerViewController: HamburgerViewController!
@@ -26,15 +27,14 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        greenNavigationController = storyboard.instantiateViewController(withIdentifier: "GreenNavigationController")
-         blueNavigationController = storyboard.instantiateViewController(withIdentifier: "BlueNavigationController")
-        pinkNavigationController = storyboard.instantiateViewController(withIdentifier: "PinkNavigationController")
+        tweetsViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
+         profileViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController")
         
-        viewControllers.append(greenNavigationController)
-        viewControllers.append(blueNavigationController)
-        viewControllers.append(pinkNavigationController)
+        viewControllers.append(profileViewController)
+        viewControllers.append(tweetsViewController)
+       // viewControllers.append(pinkNavigationController)
         
-        hamburgerViewController.contentViewController = greenNavigationController
+        hamburgerViewController.contentViewController = tweetsViewController
 
         // Do any additional setup after loading the view.
     }
@@ -47,14 +47,13 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath) as! MenuCell
         
-        let titles = ["Profile", "Timeline", "Mentions"]
         cell.menuTitleLabel.text = titles[indexPath.row]
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return titles.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

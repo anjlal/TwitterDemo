@@ -20,9 +20,23 @@ class ProfileStatsCell: UITableViewCell {
 
     var user: User? {
         didSet{
-            tweetsCountLabel.text = String(describing: user?.tweetsCount! ?? 0)
-            followingCountLabel.text = String(describing: user?.friendsCount! ?? 0)
-            followersCountLabel.text = String(describing: user?.followersCount! ?? 0)
+
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = NumberFormatter.Style.decimal
+            tweetsCountLabel.text = numberFormatter.string(from: NSNumber(value: (user?.tweetsCount)!))
+            followingCountLabel.text = numberFormatter.string(from: NSNumber(value: (user?.friendsCount)!))
+            followersCountLabel.text = numberFormatter.string(from: NSNumber(value: (user?.followersCount)!))
+
+//            //numberFormatter.string(from: NSNumber(value: (user?.tweetsCount)!))
+//            numberFormatter.string(from: NSNumber(value: (user?.friendsCount)!))
+//            numberFormatter.string(from: NSNumber(value: (user?.followersCount)!))
+//
+//
+//            
+//
+//            tweetsCountLabel.text = String(describing: user?.tweetsCount! ?? 0)
+//            followingCountLabel.text = String(describing: user?.friendsCount! ?? 0)
+//            followersCountLabel.text = String(describing: user?.followersCount! ?? 0)
             
             nameLabel.text = user?.name as String?
 

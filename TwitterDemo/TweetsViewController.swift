@@ -155,10 +155,13 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     func onTap(_ sender: UITapGestureRecognizer) {
         if let tappedRow = sender.view?.tag {
             let tweet = tweets[tappedRow]
-            
-            if let tappedUser = tweet.user {
-                profile = tappedUser
-
+            if let retweetedStatus = tweet.retweetedStatus {
+                //tweet = Tweet(dictionary: retweetedStatus)
+                profile = User(dictionary: retweetedStatus["user"] as! NSDictionary)
+            } else {
+                if let tappedUser = tweet.user {
+                    profile = tappedUser
+                }
             }
         }
     

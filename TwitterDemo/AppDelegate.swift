@@ -20,8 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if User.currentUser != nil {
             print("There is a current user.")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
-            window?.rootViewController = vc
+            //let hamburgerViewController = window!.rootViewController as! HamburgerViewController
+            let hamburgerViewController = storyboard.instantiateViewController(withIdentifier: "HamburgerViewController") as! HamburgerViewController
+            let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+            menuViewController.hamburgerViewController = hamburgerViewController
+            hamburgerViewController.menuViewController = menuViewController
+            
+            window?.rootViewController = hamburgerViewController
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: User.userDidLogoutNotification), object: nil, queue: OperationQueue.main) { (Notification) in
@@ -32,10 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().barTintColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
         
 //        let hamburgerViewController = window!.rootViewController as! HamburgerViewController
-//        
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+////        let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //
-//        let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+////        let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
 //        
 //        menuViewController.hamburgerViewController = hamburgerViewController
 //        hamburgerViewController.menuViewController = menuViewController

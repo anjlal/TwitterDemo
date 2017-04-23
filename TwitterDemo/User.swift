@@ -21,7 +21,7 @@ class User: NSObject {
     var friendsCount: Int?
     var favoritesCount: Int?
     var tweetsCount: Int?
-    var profileBannerUrl: NSURL?
+    var profileBannerUrl: URL?
     
     init(dictionary: NSDictionary) {
         self.dictionary = dictionary
@@ -36,7 +36,7 @@ class User: NSObject {
         }
 
         if let profileBannerUrlString = dictionary["profile_banner_url"] as? String {
-            profileBannerUrl = URL(string: profileBannerUrlString) as NSURL?
+            profileBannerUrl = URL(string: profileBannerUrlString + "/600x200")
         }
         
         tagline = dictionary["description"] as? String as NSString?

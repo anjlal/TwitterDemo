@@ -94,6 +94,7 @@ class ProfileCell: UITableViewCell {
     
     func timestampConverter(date: Date) -> String {
         
+        var days = 0
         var hours = 0
         var minutes = 0
         var seconds = 0
@@ -106,9 +107,14 @@ class ProfileCell: UITableViewCell {
         // Calendar can do all kinds of things with dates
         let calendar = Calendar(identifier: .gregorian)
         
-        let components = calendar.dateComponents([.hour, .minute, .second], from: date, to: now)
+        let components = calendar.dateComponents([.day, .hour, .minute, .second], from: date, to: now)
         
         // If getting the hours was succesful we can use them
+        
+        if components.day != nil {
+            days = components.day!
+        }
+        
         if  components.hour != nil {
             hours = components.hour!
         }
@@ -122,16 +128,16 @@ class ProfileCell: UITableViewCell {
             seconds = components.second!
         }
         
-        let time = (hours, minutes, seconds)
+        let time = (days, hours, minutes, seconds)
         
         switch time {
-        case let (hours, minutes, _) where (hours > 0 && minutes > 0):
-            return "\(hours)h \(minutes)m"
-        case let (hours, minutes, _) where (hours > 0 && minutes == 0):
+        case let (days, hours, _, _) where (hours >= 24):
+            return "\(days)d \(hours)h"
+        case let (_, hours, minutes, _) where (hours > 0 && hours < 24 && minutes == 0):
             return "\(hours)h"
-        case let (hours, minutes, _) where (hours == 0 && minutes > 0):
+        case let (_, hours, minutes, _) where (hours == 0 && minutes > 0):
             return "\(minutes)m"
-        case let (hours, minutes, seconds) where (hours == 0 && minutes == 0 && seconds > 0):
+        case let (_, hours, minutes, seconds) where (hours == 0 && minutes == 0 && seconds > 0):
             return "\(seconds)s"
         default:
             let dateFormatter = DateFormatter()

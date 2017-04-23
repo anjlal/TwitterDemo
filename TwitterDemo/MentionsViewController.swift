@@ -38,9 +38,8 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        tableView.estimatedRowHeight = 150
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
         
         // Add refresh control to table view
         refreshControl.addTarget(self, action: #selector(fetchMentionsTimeline), for: UIControlEvents.valueChanged)

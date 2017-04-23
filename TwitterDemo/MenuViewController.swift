@@ -13,10 +13,10 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     
     private var tweetsViewController: UIViewController!
-    //private var mentionsViewController: UIViewController!
+    private var mentionsViewController: UIViewController!
     private var profileViewController: UIViewController!
     
-    let titles = ["Profile", "Timeline"]
+    let titles = ["Profile", "Timeline", "Mentions"]
     var viewControllers: [UIViewController] = []
     
     var hamburgerViewController: HamburgerViewController!
@@ -29,10 +29,11 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         tweetsViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
          profileViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController")
+        mentionsViewController = storyboard.instantiateViewController(withIdentifier: "MentionsNavigationController")
         
         viewControllers.append(profileViewController)
         viewControllers.append(tweetsViewController)
-       // viewControllers.append(pinkNavigationController)
+        viewControllers.append(mentionsViewController)
         
         hamburgerViewController.contentViewController = tweetsViewController
 

@@ -38,6 +38,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)
         
         self.headerHeightConstraint.constant = self.maxHeaderHeight
+
         //profileBannerImage.setImageWith(userData?.profileBannerUrl as! URL)
         
 //        self.automaticallyAdjustsScrollViewInsets = false

@@ -1,4 +1,4 @@
-//
+////
 //  TweetsViewController.swift
 //  TwitterDemo
 //
@@ -88,10 +88,11 @@ class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate,
             
             
         } else if segue.identifier == "Profile" {
+            let navVC = segue.destination as! UINavigationController
+            let profileVC = navVC.topViewController as! ProfileViewController
             let backItem = UIBarButtonItem()
-            backItem.title = ""
+            backItem.title = "Back"
             navigationItem.backBarButtonItem = backItem
-            let profileVC = segue.destination as! ProfileViewController
             
             if let profile = profile {
                 print("****profile \(profile)")

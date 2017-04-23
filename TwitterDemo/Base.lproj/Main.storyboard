@@ -223,7 +223,7 @@
             </objects>
             <point key="canvasLocation" x="-3226.4000000000001" y="-527.58620689655174"/>
         </scene>
-        <!--Profile View Controller-->
+        <!--Profile-->
         <scene sceneID="VlA-Xm-elz">
             <objects>
                 <viewController id="AzQ-K4-iuT" customClass="ProfileViewController" customModule="TwitterDemo" customModuleProvider="target" sceneMemberID="viewController">
@@ -523,7 +523,7 @@
                             <constraint firstAttribute="trailing" secondItem="2kF-iI-yCQ" secondAttribute="trailing" id="taF-6J-Cvx"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="xHX-DG-Myv"/>
+                    <navigationItem key="navigationItem" title="Profile" id="xHX-DG-Myv"/>
                     <connections>
                         <outlet property="followersCountLabel" destination="KW0-ut-aN8" id="Xw6-kh-K0k"/>
                         <outlet property="followingCountLabel" destination="Ix6-vB-j3o" id="pik-VE-RIY"/>
@@ -980,7 +980,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="152" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tjM-5C-Kpu">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MenuCell" rowHeight="152" id="KhT-Lj-wvq" customClass="MenuCell" customModule="TwitterDemo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="152"/>
@@ -1011,7 +1010,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="0.69852311639999998" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="tjM-5C-Kpu" secondAttribute="trailing" id="Jkj-ha-dF0"/>
                             <constraint firstItem="UJX-vh-Ea9" firstAttribute="top" secondItem="tjM-5C-Kpu" secondAttribute="bottom" id="L8n-jZ-km8"/>
@@ -1071,6 +1070,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Mentions" id="GoW-uC-3y3"/>
+                    <connections>
+                        <outlet property="tableView" destination="hMh-fG-rjW" id="Jdy-Cl-er7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q0J-HA-mkq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

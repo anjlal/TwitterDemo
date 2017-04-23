@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate, AddTweetDelegate, ReplyDelegate, LoadMentionsDelegate {
+class TweetsViewController: UIViewController, FavoriteDelegate, RetweetDelegate, AddTweetDelegate, ReplyDelegate {
     
     var tweets: [Tweet]!
     var replyTweet: Tweet?

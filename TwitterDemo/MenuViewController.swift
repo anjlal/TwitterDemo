@@ -16,7 +16,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     private var mentionsViewController: UIViewController!
     private var profileViewController: UIViewController!
     
-    let titles = ["Profile", "Timeline", "Mentions"]
+    let titles = ["Profile", "Timeline", "Mentions", "Accounts"]
     var viewControllers: [UIViewController] = []
     
     var hamburgerViewController: HamburgerViewController!
@@ -61,9 +61,6 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.deselectRow(at: indexPath, animated: true)
         
         hamburgerViewController.contentViewController = viewControllers[indexPath.row]
-//        if indexPath.row == 2 {
-//            NotificationCenter.default.post(name: Notification.Name(rawValue: "MentionsNotification"), object: self)
-//        }
     }
     
 

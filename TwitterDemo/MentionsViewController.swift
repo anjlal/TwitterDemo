@@ -8,93 +8,65 @@
 
 import UIKit
 
-protocol LoadMentionsDelegate {
-     func loadMentions()
-}
-
-class MentionsViewController: UIViewController {
+class MentionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var loadMentionsDelegate: LoadMentionsDelegate?
-
+    var tweets: [Tweet]?
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    // Refresh control for table view
+    let refreshControl = UIRefreshControl()
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = Bundle.main.loadNibNamed("TweetCell2", owner: self, options: nil)?.first as! TweetCell2
+        cell.tweetData = tweets?[indexPath.row]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if let tweets = tweets {
+            return tweets.count
+        } else {
+            return 0
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loadMentionsDelegate?.loadMentions()
-        //
-//        TwitterClient.sharedInstance?.mentionsTimeline(success: { (tweets: [Tweet]) in
-//            self.tweets = tweets
-//            for tweet in tweets {
-//                print(tweet.text!)
-//            }
-//            
-//            let refreshControl = UIRefreshControl()
-//            refreshControl.addTarget(self, action: #selector(MentionsViewController.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
-//            
-//            // add refresh control to table view
-//            self.tableView.insertSubview(refreshControl, at: 0)
-//            // Reload the tableView now that there is new data
-//            self.tableView.reloadData()
-//            
-//        }, failure: { (error: Error) in
-//            print("error: \(error.localizedDescription)")
-//        })
-
-
-        // Do any additional setup after loading the view.
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.estimatedRowHeight = 150
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        // Add refresh control to table view
+        refreshControl.addTarget(self, action: #selector(fetchMentionsTimeline), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+        
+        fetchMentionsTimeline()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
+    func fetchMentionsTimeline() {
+        
+        TwitterClient.sharedInstance?.mentionsTimeline(success: { (tweets: [Tweet]) in
+            self.tweets = tweets
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+            print("got the data")
+        }, failure: { (error: Error) in
+            print("error: \(error.localizedDescription)")
+        })
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-//    func refreshControlAction(_ refreshControl: UIRefreshControl) {
-//        
-//        TwitterClient.sharedInstance?.mentionsTimeline(success: { (tweets: [Tweet]) in
-//            self.tweets = tweets
-//            // Reload the tableView now that there is new data
-//            self.tableView.reloadData()
-//            
-//            // Tell the refreshControl to stop spinning
-//            refreshControl.endRefreshing()
-//            
-//        }, failure: { (error: Error) in
-//            print("error: \(error.localizedDescription)")
-//        })
-//    }
-//
-//    override func getTweets(refreshing : Bool, maxID: String?) {
-//        twitterAPIService.getMentionsTimeline(maxID: maxID) {
-//            (tweets: [Tweet]?, error: Error?) in
-//            if let tweets = tweets {
-//                print(tweets)
-//                if self.isLoadingMoreData == .loadingMoreData {
-//                    self.isLoadingMoreData = .notLoadingMoreData
-//                    self.loadingMoreView!.stopAnimating()
-//                    //removes the first element of the returned array as it is repeated
-//                    var tweetsWithoutFirst = tweets
-//                    tweetsWithoutFirst.remove(at: 0)
-//                    self.tweetsArray.append(contentsOf: tweetsWithoutFirst)
-//                }else{
-//                    self.tweetsArray = tweets
-//                    if refreshing {
-//                        self.refreshControl.endRefreshing()
-//                    }
-//                }
-//                self.tweetsTableView.reloadData()
-//            }else{
-//                print(error!.localizedDescription)
-//            }
-//        }
-//    }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

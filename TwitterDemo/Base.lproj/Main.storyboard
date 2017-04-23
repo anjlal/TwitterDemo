@@ -220,7 +220,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Ji-Lw-M41" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="sAX-pY-BFB">
                     <connections>
-                        <segue destination="kID-UH-k9X" kind="presentation" identifier="Profile" id="qox-YW-BCu"/>
+                        <segue destination="kID-UH-k9X" kind="show" identifier="Profile" id="qox-YW-BCu"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

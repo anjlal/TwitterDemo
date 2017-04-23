@@ -15,6 +15,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     private var tweetsViewController: UIViewController!
     private var mentionsViewController: UIViewController!
     private var profileViewController: UIViewController!
+    private var accountsViewController: UIViewController!
     
     let titles = ["Profile", "Timeline", "Mentions", "Accounts"]
     var viewControllers: [UIViewController] = []
@@ -30,16 +31,22 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         tweetsViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
         profileViewController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController")
         mentionsViewController = storyboard.instantiateViewController(withIdentifier: "MentionsNavigationController")
+        accountsViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
         
         viewControllers.append(profileViewController)
         viewControllers.append(tweetsViewController)
         viewControllers.append(mentionsViewController)
+        viewControllers.append(accountsViewController)
         
         hamburgerViewController.contentViewController = tweetsViewController
-
+        
         // Do any additional setup after loading the view.
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.tableFooterView = UIView(frame: .zero)
+
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -49,6 +56,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath) as! MenuCell
         
         cell.menuTitleLabel.text = titles[indexPath.row]
+        cell.backgroundColor = UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 0.7)
         
         return cell
     }

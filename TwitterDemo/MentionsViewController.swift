@@ -46,6 +46,8 @@ class MentionsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.insertSubview(refreshControl, at: 0)
         
         fetchMentionsTimeline()
+        
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor(red: 0.11, green: 0.63, blue: 0.95, alpha: 1.0)]
     }
     
     override func viewWillAppear(_ animated: Bool) {

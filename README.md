@@ -46,9 +46,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 I wasn't able to successfully unretweet in the detail view if a tweet had been retweeted in the timeline; I'd like to explore that more. Overall, I spent more time on UI as compared to previous projects (especially auto-layout) and feel like I understand delegates better. Also I was able to get the composed tweet to show up without having to make a newtwork call, but I think something broke in between now and then. I will fix.
 
-# Project 4 - *Name of App Here*
+# Project 4 - Twitter Redux
 
-Time spent: **X** hours spent in total
+Time spent: 20+ hours spent in total
 
 ## User Stories
 
@@ -91,7 +91,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-![alt tag](https://raw.githubusercontent.com/anjlal/twitterdemo/master/twitterdemo.gif)
+![alt tag](https://raw.githubusercontent.com/anjlal/twitterdemo/master/twitterredux.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

@@ -46,6 +46,58 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 I wasn't able to successfully unretweet in the detail view if a tweet had been retweeted in the timeline; I'd like to explore that more. Overall, I spent more time on UI as compared to previous projects (especially auto-layout) and feel like I understand delegates better. Also I was able to get the composed tweet to show up without having to make a newtwork call, but I think something broke in between now and then. I will fix.
 
+# Project 4 - *Name of App Here*
+
+Time spent: **X** hours spent in total
+
+## User Stories
+
+The following **required** functionality is completed:
+
+- [x] Hamburger menu
+   - [x] Dragging anywhere in the view should reveal the menu.
+   - [x] The menu should include links to your profile, the home timeline, and the mentions view.
+   - [x] The menu can look similar to the example or feel free to take liberty with the UI.
+- [x] Profile page
+   - [x] Contains the user header view
+   - [x] Contains a section with the users basic stats: # tweets, # following, # followers
+- [x] Home Timeline
+   - [x] Tapping on a user image should bring up that user's profile page
+
+The following **optional** features are implemented:
+
+- [x] Profile Page
+   - [x] Implement the paging view for the user description.
+   - [x] As the paging view moves, increase the opacity of the background screen. See the actual Twitter app for this effect
+   - [ ] Pulling down the profile page should blur and resize the header image.
+- [ ] Account switching
+   - [ ] Long press on tab bar to bring up Account view with animation
+   - [ ] Tap account to switch to
+   - [ ] Include a plus button to Add an Account
+   - [ ] Swipe to delete an account
+
+
+The following **additional** features are implemented:
+
+- [x] Added animations to paging view
+
+Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
+
+  1. Animations
+  2. Passing data around
+
+
+## Video Walkthrough
+
+Here's a walkthrough of implemented user stories:
+
+![alt tag](https://raw.githubusercontent.com/anjlal/twitterdemo/master/twitterdemo.gif)
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+## Notes
+The thing that took me the longest was around the various ways of passing data between view controllers and when to use navigation controllers -- I think I have a better understanding but still have not fully grasped all the nuances between the various approaches. For example, I played around with Notifications but they didn't always work as expected. I also wish I had created a xib file for some of my cells earlier on -- that would have saved me time. I'm really eager to get the stretchy header to work, so I will continue iterating on it.
+
 ## License
 
     Copyright [2017] [Angie Lal]
